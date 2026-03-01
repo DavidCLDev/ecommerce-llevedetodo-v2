@@ -1,28 +1,26 @@
-import Header from './components/Header';
-import MainContent from './components/MainContent';
-import Footer from './components/Footer';
-import Modal from "./components/Modal";
-import LoginForm from './components/LoginForm';
-import { useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+import SimpleLayout from './layouts/SimpleLayout';
+import MainLayout from './layouts/MainLayout';
+
+import Home from './pages/Home';
+import Registro from './pages/Registro';
+
 
 function App() {
-  // Variable y función que maneja el estado del modal (Abierto o cerrado).
-  const [isOpen, setOpen] = useState(false);
-
-  function closeModal() {setOpen(false);}
 
   return (
-    <div className="min-h-screen bg-zinc-50 overflow-hidden">
-      <Header onOpen={() => setOpen(true)} onUserMenu={() => setUserMenu(true)} /> 
-      <MainContent />
-      <Footer />
+    <BrowserRouter>
+      <Routes>
+        <Route element={ <MainLayout /> }>
+          <Route index element={ <Home /> }></Route>
+        </Route>
 
-      {isOpen && (
-        <Modal onClose={closeModal}>
-            <LoginForm onLoginSuccess={ closeModal } />
-        </Modal>
-      )}
-    </div>
+        <Route element={ <SimpleLayout /> }>
+          <Route path="registrar" element={ <Registro /> }></Route>
+        </Route>
+      </Routes>
+    </BrowserRouter>
   )
 }
 

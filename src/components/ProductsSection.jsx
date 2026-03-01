@@ -3,7 +3,10 @@ import Recommendations from './Recommendations';
 
 import { bannerData } from '../data/bannerData';
 
-export default function MainContent() {
+export default function ProductsSection() {
+
+    const recommendations = [1, 2, 3];
+
     return(
         <main>
             <Carousel showIndicators>
@@ -14,9 +17,9 @@ export default function MainContent() {
             })}
             </Carousel>
             <div className='py-10 bg-amber-500'>
-                <Recommendations RecommId="1" />
-                <Recommendations RecommId="2" />
-                <Recommendations RecommId="3" />
+                {
+                    recommendations.map(id => <Recommendations key={id} RecommId={id} />)
+                }
             </div>
         </main>
     );

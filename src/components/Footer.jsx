@@ -16,7 +16,7 @@ export default function Footer() {
     return (
         <footer className="bg-zinc-200">
             <section className="flex flex-col px-20 py-10 space-y-6">
-                <h2 className="text-xl font-bold text-center">Equipo de Desarrollo</h2>
+                <h2 className="ml-10 text-xl font-bold self-center">Equipo de Desarrollo</h2>
                 <div className="flex justify-between">
                     {
                         devs.map((dev, key) => {

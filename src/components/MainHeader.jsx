@@ -1,11 +1,13 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
-import Logo from '../assets/images/lleveDTodo.png'
+import Logo from '../assets/images/lleveDTodo.png';
 
 import SearchBar from "./SearchBar";
 import LoginRegister from "./LoginRegister";
 import UserButtons from "./UserButtons";
+
+import { Link } from "react-router-dom";
 
 import { useAuth } from "../hooks/useAuth";
 
@@ -28,7 +30,7 @@ export default function Header({ onOpen }) {
         <nav className="w-full bg-zinc-50 px-25 pt-6 pb-4 space-y-2">
             <div className="flex justify-between items-center">
                 <div className="w-55">
-                    <a href="/"><img src={ Logo } alt="Lleve de todo"/></a>
+                    <Link to="/"><img src={ Logo } alt="Lleve de todo"/></Link>
                 </div>
                 <SearchBar />
                 <div className="flex w-70 justify-between">
