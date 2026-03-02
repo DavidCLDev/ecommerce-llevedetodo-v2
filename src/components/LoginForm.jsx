@@ -15,8 +15,8 @@ export default function LoginForm({ onLoginSuccess }) {
     const [password, setPassword] = useState('');
 
     const loginInputs = [
-    {name:"email", placeholder: "correo electrónico", auto:"username", onChange: e => setEmail(e.target.value)},
-    {name:"password", placeholder: "contraseña", auto:"current-password", onChange: e => setPassword(e.target.value)}
+    {name: "email", type: "email", placeholder: "correo electrónico", autoComplete:"username", onChange: e => setEmail(e.target.value)},
+    {name: "password", type: "password", placeholder: "contraseña", autoComplete:"current-password", onChange: e => setPassword(e.target.value)}
     ];
 
     async function handleSubmit(e) {
@@ -36,10 +36,10 @@ export default function LoginForm({ onLoginSuccess }) {
     }
 
     return (
-        <form action="" className='flex flex-col flex-1 justify-center items-center space-y-6' onSubmit={ handleSubmit }>
+        <form className='flex flex-col flex-1 justify-center items-center space-y-6' onSubmit={ handleSubmit }>
             <h2 className="text-2xl font-bold">Iniciar Sesión</h2>
             {
-            loginInputs.map((elem, index) => <TextInput elem={ elem } width="full" key={ index } />)
+            loginInputs.map((elem, index) => <TextInput { ...elem } className="w-full" key={ index } />)
             }
             <button type="submit" className='w-full text-white bg-red-400 p-3 rounded-md cursor-pointer'>Iniciar Sesión</button>
             <a href="" className='text-stone-400 underline'>Olvidaste la contraseña?</a>
