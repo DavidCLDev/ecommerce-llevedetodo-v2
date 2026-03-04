@@ -1,38 +1,46 @@
-import { useState } from "react";
-
 import TextInput from './TextInput';
 
-import { useAuth } from '../hooks/useAuth'
+import { useAuth } from '../hooks/useAuth';
+import { useForm } from '../hooks/useForm';
+
+import { authFetch } from '../services/fetchData';
 
 export default function LoginForm({ onLoginSuccess }) {
 
     const { login } = useAuth();
 
-    // Variable y función que maneja el estado del input del correo
-    const [email, setEmail] = useState('');
-
-    // Variable y función que maneja el estado del input de la contraseña
-    const [password, setPassword] = useState('');
+    const { formData, handleChange, handleSubmit } = useForm(
+        {
+            email: "",
+            password: ""
+        },
+        submitForm
+    );
 
     const loginInputs = [
-    {name: "email", type: "email", placeholder: "correo electrónico", autoComplete:"username", onChange: e => setEmail(e.target.value)},
-    {name: "password", type: "password", placeholder: "contraseña", autoComplete:"current-password", onChange: e => setPassword(e.target.value)}
+    {name: "email", type: "email", value: formData.email, placeholder: "correo electrónico", autoComplete:"username", onChange: e => handleChange(e)},
+    {name: "password", type: "password", value: formData.password, placeholder: "contraseña", autoComplete:"current-password", onChange: e => handleChange(e)}
     ];
 
-    async function handleSubmit(e) {
-        e.preventDefault();
+    async function submitForm(formData) {
+        try {
+            const response = await authFetch('login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            })
 
-        const response = await fetch('http://localhost:3000/api/auth/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password })
-        })
+            const data = await response.json();
 
-        const data = await response.json();
+            if (response.status === 200) {
+                login(data);
         
-        login(data);
-
-        onLoginSuccess();
+                onLoginSuccess();
+            }
+            
+        } catch(error) {
+            console.log("Error");
+        }
     }
 
     return (

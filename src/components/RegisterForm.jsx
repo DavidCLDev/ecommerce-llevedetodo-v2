@@ -2,64 +2,100 @@ import { useState } from 'react';
 
 import TextInput from "./TextInput";
 
-export default function RegisterForm() {
+import { useAuth } from '../hooks/useAuth';
+import { useForm } from '../hooks/useForm';
 
-    const [formData, setFormData] = useState({
+import { authFetch } from '../services/fetchData';
+
+export default function RegisterForm({ onRegisterSuccess }) {
+
+    const { login } = useAuth();
+
+    const { formData, handleChange, handleSubmit } = useForm({
         name: "",
         lastname:"",
         email: "",
         phone: "",
-        onChange: e =>
-            setFormData(prev => ({
-                ...prev,
-                [e.target.name]: e.target.value
-            }))
-    })
+        username: "",
+        password: ""
+    }, submitForm);
 
     const registerInputs = [
     {
         name: "name",
         type: "text",
+        value: formData.name,
         placeholder: "Nombre",
         autoComplete:"username",
+        onChange: e => handleChange(e)
     },
     {
         name: "lastname",
         type: "text",
+        value: formData.lastname,
         placeholder: "Apellido",
         autoComplete:"username",
+        onChange: e => handleChange(e)
     },
     {
         name: "email",
         type: "email",
+        value: formData.email,
         placeholder: "correo electrónico",
         autoComplete: "username",
+        onChange: e => handleChange(e)
     },
     {
         name: "phone",
         type: "tel",
+        value: formData.phone,
         placeholder: "número de celular",
         autoComplete: "tel-national",
-        pattern: "[0-9]",
+        onChange: e => handleChange(e),
+        pattern: "3[0-9]{9}",
         inputMode: "numeric"
     },
     {
-        name: "userName",
+        name: "username",
         type: "text",
+        value: formData.username,
         placeholder: "nombre de usuario",
         autoComplete: "username",
+        onChange: e => handleChange(e),
         className: "col-span-full"
     },
     {
         name: "password",
-        type: "passwrod",
+        type: "password",
+        value: formData.password,
         placeholder: "contraseña",
         autoComplete: "current-password",
+        onChange: e => handleChange(e),
         className: "col-span-full"
     }];
 
+    async function submitForm(formData) {
+            try {
+                const response = await authFetch('register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                })
+    
+                const data = await response.json();
+            
+                if (response.status === 201) {
+                    login(data);
+                    
+                    onRegisterSuccess();
+                }
+            } catch(error) {
+                console.log("Error");
+            }
+        }
+
     return (
-        <form className="grid grid-cols-2 gap-6">
+        <form className="grid grid-cols-2 gap-6" onSubmit={ handleSubmit }>
             {
                 registerInputs.map((input) => <TextInput {...input} className={input.className} key={input.name} />)
             }

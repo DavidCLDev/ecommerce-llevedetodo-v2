@@ -6,6 +6,8 @@ import MainLayout from './layouts/MainLayout';
 import Home from './pages/Home';
 import Registro from './pages/Registro';
 
+import PublicRoute from './routes/PublicRoute';
+
 
 function App() {
 
@@ -17,7 +19,12 @@ function App() {
         </Route>
 
         <Route element={ <SimpleLayout /> }>
-          <Route path="registrar" element={ <Registro /> }></Route>
+          <Route path="registrar" element={ 
+            <PublicRoute>
+              <Registro />
+            </PublicRoute>
+           }>
+           </Route>
         </Route>
       </Routes>
     </BrowserRouter>

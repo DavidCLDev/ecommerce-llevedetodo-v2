@@ -21,11 +21,11 @@ export default function UserMenu() {
                     "
             >
                 {
-                    menus.map((menu) => {
+                    menus.map((menu, index) => {
                         return (
-                        <ul>
+                        <ul key={index}>
                             {
-                                menu.map((option) => <li className="hover:bg-orange-300/70 rounded-sm"><a href="" className="block my-2 p-2 w-full h-full text-md">{ option }</a></li>)
+                                menu.map((option, index) => <li className="hover:bg-orange-300/70 rounded-sm" key={option}><a href="" className="block my-2 p-2 w-full h-full text-md">{ option }</a></li>)
                             }
                         </ul>);
                     })
