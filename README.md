@@ -42,7 +42,9 @@ El proyecto sigue una arquitectura cliente-servidor:
 ## Funcionalidades implementadas
 
 - Inicio de sesión
-- visualización de productos
+- Registro de usuario
+- Cierre de sesión.
+- visualización de productos de prueba
 
 ---
 
@@ -50,7 +52,8 @@ El proyecto sigue una arquitectura cliente-servidor:
 
 ### Requisitos previos
 Antes de comenzar, asegúrate de tener instalado en tu sistema:
-- **Node.js** (incluye npm)
+- **Node.js** >= 18 (incluye npm)
+- **MariaDB** >= 10 (para base de datos)
 
 ---
 
@@ -104,9 +107,7 @@ npm run dev
 ### David Alejandro Camacho
 
 - Fullstack developer
-
 - Estudiante de ingeniería de sistemas
-
 - Estudiante de Análisis y Desarrollo de Software
 
 ### Freyler Yesid Contrera

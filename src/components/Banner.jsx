@@ -1,4 +1,3 @@
-import Carousel from './Carousel';
 import poster from '../assets/images/banner/poster_audifonos.png';
 
 export default function Banner() {

@@ -28,7 +28,7 @@ export default function Header({ onOpen }) {
     return (
     <header className="z-50">
         <nav className="w-full bg-zinc-50 px-25 pt-6 pb-4 space-y-2">
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center h-18">
                 <div className="w-55">
                     <Link to="/"><img src={ Logo } alt="Lleve de todo"/></Link>
                 </div>
