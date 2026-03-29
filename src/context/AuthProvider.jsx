@@ -24,7 +24,7 @@ export default function AuthProvider({ children }) {
             if (!res.ok) throw Error("Token inválido");
             return res.json();
         })
-        .then (data => setUser(data))
+        .then (data => setUser(data.user))
         .catch(() => {logout();})
         .finally(() => setAuthLoading(false));
     }, []);

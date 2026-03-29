@@ -24,6 +24,8 @@ import PublicRoute from './routes/PublicRoute';
 import PrivateRoute from './routes/PrivateRoute';
 import AccountLayout from './layouts/AccountLayout';
 
+import EliminarUsuario from './pages/EliminarUsuario';
+
 function App() {
 
   return (
@@ -60,7 +62,13 @@ function App() {
               <Registro />
             </PublicRoute>
            }>
-           </Route>
+          </Route>
+          
+          <Route path="cuenta/perfil/eliminar" element={
+            <PrivateRoute>
+              <EliminarUsuario />
+            </PrivateRoute>}>
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>

@@ -6,7 +6,7 @@ import Footer from '../components/Footer';
 export default function SimpleLayout() {
 
     return(
-        <div className="min-h-screen bg-zinc-50 overflow-hidden">
+        <div className="min-h-screen grid grid-rows-[auto_1fr_auto] bg-zinc-50 overflow-hidden">
             <Header />
             <Outlet />
             <Footer />

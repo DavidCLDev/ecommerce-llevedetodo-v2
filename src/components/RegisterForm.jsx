@@ -88,7 +88,7 @@ export default function RegisterForm({ onRegisterSuccess }) {
                     onRegisterSuccess();
                 }
             } catch(error) {
-                console.log("Error");
+                console.log(error);
             }
         }
 

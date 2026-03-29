@@ -13,13 +13,13 @@ export default function Modal({ children, onClose }) {
 
     return createPortal(
         <section className="flex justify-center items-center fixed inset-0 bg-black/25 overflow-hidden">
-            <div className="flex w-1/3 min-h-[500px] max-h-[90vh] bg-white p-15 relative">
+            <div className="flex w-1/3  bg-white p-15 relative">
                 <button className="absolute top-5 right-5 cursor-pointer" onClick={ onClose }>
                     <FontAwesomeIcon icon={ faXmark } size="xl" />
                 </button>
                 {children}
             </div>
         </section>,
-        document.getElementById("login")
+        document.getElementById("modal-root")
     );
 }

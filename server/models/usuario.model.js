@@ -28,6 +28,24 @@ export async function findUserById(id) {
     return rows[0];
 }
 
+export async function findPasswordById(id) {
+    const [rows] = await pool.execute(
+        'SELECT id, contrasena FROM usuario WHERE id = ?',
+        [id]
+    );
+
+    return rows[0];
+}
+
+export async function deleteUserById(id) {
+    const [rows] = await pool.execute(
+        'DELETE FROM usuario WHERE id = ?',
+        [id]
+    );
+
+    return rows;
+}
+
 export async function existsEmail(email) {
     const[rows] = await pool.execute(
         'SELECT EXISTS(SELECT 1 FROM usuario WHERE correo = ?) AS emailExists',

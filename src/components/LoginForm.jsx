@@ -39,7 +39,7 @@ export default function LoginForm({ onLoginSuccess }) {
             }
             
         } catch(error) {
-            console.log("Error");
+            console.log(error);
         }
     }
 
