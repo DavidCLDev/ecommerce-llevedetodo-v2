@@ -4,6 +4,8 @@ import { findUserByEmail, findUserById, existsEmail, existsUsername ,insertUser,
 
 import { generateToken } from '../utils/jwt.js';
 
+import { mapUser } from '../services/mapData.js';
+
 // Lógica de INICIO DE SESIÓN
 export async function login(req, res) {
     try {
@@ -13,7 +15,7 @@ export async function login(req, res) {
             return res.status(404).json({ message: 'Datos incompletos' });
         }
 
-        const { contrasena, ...user } = await findUserByEmail(email);
+        const { contrasena, ...usuario } = await findUserByEmail(email);
 
         // Se comparan los hashes de las contraseñas
         const isValid = await bcrypt.compare(password, contrasena);
@@ -21,6 +23,8 @@ export async function login(req, res) {
         if (!isValid) {
             return res.status(401).json({ message: 'Credenciales inválidas' });
         }
+
+        const user = mapUser(usuario);
 
         // Se genera el token de autenticación
         const token = generateToken({
@@ -95,10 +99,10 @@ export async function register(req, res) {
 
         const userID = await insertUser(name, lastname, email, phone, username, hashedPassword);
 
-        const user = { userID, name, username, email};
+        const user = {id:userID, name, username, email};
 
         const token = generateToken({
-            id: userID
+            id: user.id
         });
 
         res.status(201).json({
@@ -117,11 +121,13 @@ export async function getProfile(req, res) {
     try {
         const userId = req.user.id;
 
-        const user = await findUserById(userId);
+        const usuario = await findUserById(userId);
         
-        if (!user) {
+        if (!usuario) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
+
+        const user = mapUser(usuario);
 
         res.json({user});
     } catch (error) {

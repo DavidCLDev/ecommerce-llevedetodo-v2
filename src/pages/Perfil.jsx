@@ -14,8 +14,8 @@ export default function Perfil() {
             <div className="flex flex-col gap-10 size-full">
                 <div className="flex justify-between items-center bg-amber-50 p-3 rounded-sm">
                     <header>
-                        <h1 className="text-xl font-bold">{user.nombre_de_usuario}</h1>
-                        <p className="text-sm">{user.correo}</p>
+                        <h1 className="text-xl font-bold">{user.username}</h1>
+                        <p className="text-sm">{user.email}</p>
                     </header>
                     <Link to="/cuenta/perfil/eliminar" className="text-sm text-zinc-500 underline">Eliminar cuenta</Link>
                 </div>

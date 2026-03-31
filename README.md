@@ -59,7 +59,7 @@ Antes de comenzar, asegúrate de tener instalado en tu sistema:
 
 ### 1️⃣ Clonar el repositorio
 ```bash
-git clone https://github.com/usuario/ecommerce-llevedetodo-v2.git
+git clone https://github.com/DavidCLDev/ecommerce-llevedetodo-v2.git
 cd ecommerce-llevedetodo-v2
 ```
 
@@ -70,7 +70,7 @@ npm install
 ### 3️⃣ Configurar la base de datos
 
 1. Crear una base de datos en MariaDB.
-2. Importar el script ubicado en:
+2. Importar en la base de datos creada el script ubicado en:
    `/server/db/llevedetodo_202603041331.sql`
 
 ### 4️⃣ Crear variables de entorno

@@ -7,7 +7,7 @@ export default function UserDeleted() {
     return(
         <div className="flex flex-col gap-8 w-full">
             <h2 className="text-2xl text-center font-bold">¡Hasta Pronto!</h2>
-            <p>El Usuario se Eliminó correctamente. Gracias por elegirnos y esperamos vuelvas pronto.</p>
+            <p>El Usuario se Eliminó correctamente. Gracias por elegirnos y esperamos Regreses!.</p>
             <Link to="/" className="bg-green-400 p-2 text-white text-center" onClick={ logout }>Aceptar</Link>
         </div>
     );

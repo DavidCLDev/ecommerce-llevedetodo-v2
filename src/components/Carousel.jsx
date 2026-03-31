@@ -16,7 +16,7 @@ export default function Carousel({ children, arrowSize='size-10', arrowPadR='rig
     }
 
     return (
-        <div className="flex justify-center items-center w-full relative">
+        <div className="flex justify-center items-center size-full relative">
             <BsArrowLeftCircleFill className={`absolute ${arrowPadL} ${arrowSize} text-white cursor-pointer`} onClick={ prevSlide } />
             {
                 React.Children.map(children, (child, index) => {

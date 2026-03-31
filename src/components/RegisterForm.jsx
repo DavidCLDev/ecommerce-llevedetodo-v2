@@ -73,24 +73,22 @@ export default function RegisterForm({ onRegisterSuccess }) {
     }];
 
     async function submitForm(formData) {
-            try {
-                const response = await authFetch('register', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
-                })
-    
-                const data = await response.json();
-            
-                if (response.status === 201) {
-                    login(data);
-                    
-                    onRegisterSuccess();
-                }
-            } catch(error) {
-                console.log(error);
+        try {
+            const response = await authFetch('register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            })
+
+            const data = await response.json();
+        
+            if (response.status === 201) {
+                login(data);
             }
+        } catch(error) {
+            console.log(error);
         }
+    }
 
     return (
         <form className="grid grid-cols-2 gap-6" onSubmit={ handleSubmit }>
