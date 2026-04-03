@@ -8,7 +8,7 @@ export default function UserPanelCard({ atributes }) {
 
     return (
         <Link to={ ruta }>
-            <section className="flex flex-col gap-5 h-35 bg-amber-50 p-4 rounded-sm">
+            <section className="flex flex-col gap-5 h-40 bg-amber-50 p-4 rounded-sm">
                 <div>
                     <FontAwesomeIcon icon={ icon } size="lg" />
                 </div>

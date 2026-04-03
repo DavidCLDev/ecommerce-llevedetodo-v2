@@ -2,8 +2,8 @@ import TextInput from "../components/TextInput";
 
 export default function AgregarDireccion() {
     return (
-        <div className="w-full h-200 px-120 py-15">
-            <div className="p-15 bg-amber-50">
+        <div className="flex justify-center py-15 w-full h-200">
+            <div className="w-1/2 p-15 bg-amber-50">
                 <form className="grid grid-cols-2 gap-8">
                     <div className="flex flex-col gap-1 col-span-full">
                         <label htmlFor="">Dirección</label>

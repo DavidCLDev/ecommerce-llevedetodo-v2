@@ -47,8 +47,8 @@ export default function DatosUsuario() {
     ];
 
     return (
-        <div className="min-h-195 px-100 py-10">
-            <div className="flex flex-col gap-4 bg-amber-100 p-8 rounded-sm">
+        <div className="flex justify-center py-10 min-h-195">
+            <div className="flex flex-col gap-4 w-1/2 bg-amber-100 p-8 rounded-sm">
                 <header className="text-center">
                     <h1 className="text-xl font-bold">Datos de la cuenta</h1>
                 </header>
