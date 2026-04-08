@@ -18,10 +18,10 @@ app.use(cors());
 /* ---------------- ROUTES ---------------- */
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productsRoutes);
-app.use('/api/usuario', usersRoutes);
+app.use('/api/user', usersRoutes);
 
-app.get('/health', (req, res) => {
-    res.json({message: 'API funcionando'});
+app.get('/api/health', (_, res) => {
+    res.json({status: 'OK'});
 });
 
 

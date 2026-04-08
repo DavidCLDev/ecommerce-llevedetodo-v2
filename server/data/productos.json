@@ -1,5 +1,4 @@
-{
-    "productos": [
+[
         {
             "id": 1,
             "imagen": "assets/images/products/camara123.jpg",
@@ -48,5 +47,4 @@
             "descuento": 0.6,
             "calificacion": 4.6
         }
-    ]
-}
+]

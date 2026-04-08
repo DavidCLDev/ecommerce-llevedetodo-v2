@@ -74,11 +74,7 @@ export default function RegisterForm({ onRegisterSuccess }) {
 
     async function submitForm(formData) {
         try {
-            const response = await authFetch('register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
-            })
+            const response = await authFetch('register', formData)
 
             const data = await response.json();
         

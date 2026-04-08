@@ -15,6 +15,8 @@ export default function Header({ onOpen }) {
 
     const { user, authLoading } = useAuth();
 
+    console.log(user);
+
     // Opciones de menú general
     const options = [
         {id:"categorias", label:"Todas las categorías"},

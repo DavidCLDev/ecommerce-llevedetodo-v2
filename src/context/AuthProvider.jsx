@@ -35,6 +35,7 @@ export default function AuthProvider({ children }) {
     }
 
     function logout() {
+        console.log("logout se está ejecutando");
         localStorage.removeItem('token');
         setUser(null);
     }

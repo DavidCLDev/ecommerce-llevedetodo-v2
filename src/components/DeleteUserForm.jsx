@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "../hooks/useForm";
-import { userService } from "../services/userService";
+import { deleteUser } from "../services/userService";
 import { useAuth } from "../hooks/useAuth";
 
 import TextInput from "../components/TextInput";
@@ -20,11 +20,7 @@ export default function DeleteUserForm() {
         try {
             const token = localStorage.getItem('token');
             
-            const response = await userService(`usuario/${user.id}`, {
-                method: 'DELETE',
-                headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
-            })
+            const response = await deleteUser(user.id, formData);
 
             if (response.status === 204) {
                setOpen(true);
@@ -35,7 +31,7 @@ export default function DeleteUserForm() {
         }
     }
 
-    function closeModal() {
+    function redirect() {
         logout();
         navigate("/");
     }
@@ -51,11 +47,11 @@ export default function DeleteUserForm() {
             </form>
 
             {isOpen && (
-                <Modal onClose={ closeModal }>
+                <Modal onClose={ redirect }>
                     <ConfirmationPrompt 
                     header="¡Hasta Pronto!" 
-                    text="El Usuario se Eliminó correctamente. Gracias por elegirnos y esperamos Regreses!."
-                    onAccept="/"
+                    description="El Usuario se Eliminó correctamente. Gracias por elegirnos y esperamos Regreses!."
+                    onAccept={ redirect }
                     />
                 </Modal>
             )}

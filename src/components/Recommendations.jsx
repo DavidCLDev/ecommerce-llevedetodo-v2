@@ -10,7 +10,7 @@ export default function Recommendations({RecommId}) {
     useEffect(() => {
         fetch('http://localhost:3000/api/products/recomendados')
         .then(res => res.json())
-        .then(data => setProducts(data.productos));
+        .then(data => setProducts(data));
     }, []);
 
     return (

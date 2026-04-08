@@ -13,7 +13,7 @@ router.delete('/:id', verifyToken, deleteUser);
 
 router.get('/:id', verifyToken, fetchAdditionalData);
 
-router.put('/:id', verifyToken, updateUserData);
+router.patch('/:id', verifyToken, updateUserData);
 
 
 export default router;

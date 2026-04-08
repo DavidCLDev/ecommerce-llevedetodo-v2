@@ -105,7 +105,7 @@ export default function ModifyForm({type}) {
                     <ConfirmationPrompt
                     header="Campo actualizado"
                     description="Se actualizó correctamente el campo."
-                    onAccept="/cuenta/perfil/informacion"
+                    onAccept={() => navigate("/cuenta/perfil/informacion")}
                     />
                 </Modal>
             )}

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import UserDataCard from "../components/UserDataCard";
 import { useAuth } from "../hooks/useAuth";
 
-import { userService } from "../services/userService";
+import { fetchAdditionalData } from "../services/userService";
 
 export default function DatosUsuario() {
 
@@ -17,12 +17,7 @@ export default function DatosUsuario() {
             if (!user?.id) return;
 
             try {
-                const token = localStorage.getItem("token");
-    
-                const response = await userService(`usuario/${user.id}`, {
-                    method: 'GET',
-                    headers: { Authorization: `Bearer ${token}` }
-                });
+                const response = await fetchAdditionalData(user.id);
     
                 if (response && response.status == 200) {
                     const data = await response.json();
@@ -41,7 +36,7 @@ export default function DatosUsuario() {
 
     const fields = [
         {name: "Nombre de usuario", value: user.username, path: "nombre-usuario"},
-        {name: "Email", value: user.email, path:"correo"},
+        {name: "Correo", value: user.email, path:"correo"},
         {name: "Nombre y apellido", value: fullName, path:"nombres"},
         {name: "Celular", value: phone, path:"celular"}
     ];
