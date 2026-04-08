@@ -1,7 +1,7 @@
 {
   "name": "ecommerce-llevedetodo-v2",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.3.2",
   "type": "module",
   "engine": {
     "node": ">=18"
