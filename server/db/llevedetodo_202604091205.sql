@@ -82,11 +82,11 @@ DROP TABLE IF EXISTS `departamento`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `departamento` (
-  `id` int(11) NOT NULL COMMENT 'Representa el número único identificador del departamento',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Representa el número único identificador del departamento',
   `nombre` varchar(45) NOT NULL COMMENT 'El nombre del departamento',
   PRIMARY KEY (`id`),
   UNIQUE KEY `nombre_UNIQUE` (`nombre`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,6 +95,40 @@ CREATE TABLE `departamento` (
 
 LOCK TABLES `departamento` WRITE;
 /*!40000 ALTER TABLE `departamento` DISABLE KEYS */;
+INSERT INTO `departamento` VALUES
+(29,'AMAZONAS'),
+(1,'ANTIOQUIA'),
+(25,'ARAUCA'),
+(2,'ATLÁNTICO'),
+(3,'BOGOTÁ, D.C.'),
+(4,'BOLÍVAR'),
+(5,'BOYACÁ'),
+(6,'CALDAS'),
+(7,'CAQUETÁ'),
+(26,'CASANARE'),
+(8,'CAUCA'),
+(9,'CESAR'),
+(12,'CHOCÓ'),
+(10,'CÓRDOBA'),
+(11,'CUNDINAMARCA'),
+(30,'GUAINÍA'),
+(31,'GUAVIARE'),
+(13,'HUILA'),
+(14,'LA GUAJIRA'),
+(15,'MAGDALENA'),
+(16,'META'),
+(17,'NARIÑO'),
+(18,'NORTE DE SANTANDER'),
+(27,'PUTUMAYO'),
+(19,'QUINDIO'),
+(20,'RISARALDA'),
+(28,'SAN ANDRÉS, PROVIDENCIA Y SANTA CATALINA'),
+(21,'SANTANDER'),
+(22,'SUCRE'),
+(23,'TOLIMA'),
+(24,'VALLE DEL CAUCA'),
+(33,'VAUPÉS'),
+(32,'VICHADA');
 /*!40000 ALTER TABLE `departamento` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -607,7 +641,7 @@ CREATE TABLE `usuario` (
   UNIQUE KEY `nombreDeUsuario_UNIQUE` (`nombre_de_usuario`),
   UNIQUE KEY `correo_UNIQUE` (`correo`),
   UNIQUE KEY `celular_UNIQUE` (`celular`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -632,4 +666,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-03-04 13:31:32
+-- Dump completed on 2026-04-09 12:05:50

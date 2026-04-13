@@ -18,8 +18,6 @@ export default function DeleteUserForm() {
 
     async function submitForm(formData) {
         try {
-            const token = localStorage.getItem('token');
-            
             const response = await deleteUser(user.id, formData);
 
             if (response.status === 204) {

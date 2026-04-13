@@ -3,46 +3,11 @@ import { findPasswordById, findAdditionalDataById, deleteUserById, updateUsernam
 import { mapAdditionalData, mapUser } from '../services/mapData.js';
 import { isPhoneValid, isNameValid } from '../services/verifyData.js';
 
-export async function deleteUser(req, res) {
-    try {
-        const { id } = req.params
-        const { confirmPass } = req.body;
-
-        const { contrasena } = await findPasswordById(id);
-        
-        // Se comparan los hashes de las contraseñas
-        const isValid = await bcrypt.compare(confirmPass, contrasena);
-
-        if (!isValid) {
-            return res.status(401).json({ message: 'Contraseña inválida'});
-        }
-
-        const result = await deleteUserById(id);
-
-        if (result === 0) {
-            return res.status(404).json({
-                message: "Usuario no encontrado"
-            });
-        }
-
-        return res.status(204).send();
-
-    } catch (error) {
-        res.status(500).json({ message: 'Error del servidor' });
-    }
-}
-
 export async function fetchAdditionalData(req, res) {
     try {
-        const { id } = req.params;
+        const { id } = req.user;
 
         const result = await findAdditionalDataById(id);
-
-        if (result === 0) {
-            return res.status(404).json({
-                message: "Usuario no encontrado"
-            });
-        }
 
         const additionalData = mapAdditionalData(result);
 
@@ -55,7 +20,7 @@ export async function fetchAdditionalData(req, res) {
 
 export async function updateUserData(req, res) {
     try {
-        const { id } = req.params;
+        const { id } = req.user;
 
         const { body } = req;
         
@@ -116,5 +81,28 @@ export async function updateUserData(req, res) {
 
     } catch (error) {
         res.status(500).json({ message: "Error del Servidor" });
+    }
+}
+
+export async function deleteUser(req, res) {
+    try {
+        const { id } = req.user;
+        const { confirmPass } = req.body;
+
+        const { contrasena } = await findPasswordById(id);
+        
+        // Se comparan los hashes de las contraseñas
+        const isValid = await bcrypt.compare(confirmPass, contrasena);
+
+        if (!isValid) {
+            return res.status(401).json({ message: 'Contraseña inválida'});
+        }
+
+        await deleteUserById(id);
+
+        return res.status(204).send();
+
+    } catch (error) {
+        res.status(500).json({ message: 'Error del servidor' });
     }
 }

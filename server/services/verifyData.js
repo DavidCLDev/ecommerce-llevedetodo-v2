@@ -19,3 +19,15 @@ export function isNameValid(name) {
 
     return isValid;
 }
+
+export function isNeighborhoodValid(neighborhood) {
+    return typeof neighborhood === "string" && neighborhood &&neighborhood.trim().length < 5;
+}
+
+export function isExactAddressValid(exactAddress) {
+    return typeof exactAddress === "string" && exactAddress.trim().length < 10;
+}
+
+export function isZipCodeValid(zipCode) {
+    return typeof zipCode === "string" && !/^\d{6}$/.test(zipCode);
+}

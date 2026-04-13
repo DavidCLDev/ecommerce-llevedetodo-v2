@@ -92,21 +92,21 @@ export async function updateNames(id, firstname, lastname) {
 }
 
 export async function existsEmail(email) {
-    const[rows] = await pool.execute(
+    const[result] = await pool.execute(
         'SELECT EXISTS(SELECT 1 FROM usuario WHERE correo = ?) AS emailExists',
         [email]
     );
 
-    return rows[0];
+    return result[0];
 }
 
 export async function existsUsername(username) {
-    const[rows] = await pool.execute(
+    const[result] = await pool.execute(
         'SELECT EXISTS(SELECT 1 FROM usuario WHERE nombre_de_usuario = ?) as usernameExists',
         [username]
     );
 
-    return rows[0];
+    return result[0];
 }
 
 export async function existsPhone(phoneNumber) {
@@ -115,5 +115,5 @@ export async function existsPhone(phoneNumber) {
         [phoneNumber]
     )
 
-    return rows[0];
+    return result[0];
 }

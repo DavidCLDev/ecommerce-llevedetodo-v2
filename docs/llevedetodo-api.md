@@ -12,7 +12,7 @@ retorna el estado de la API.
 
 ### Registrar o crear un usuario
 
-POST `api/usuario/register`
+POST `/api/usuario/register`
 
 Permite crear o registrar un usuario.
 
@@ -63,7 +63,7 @@ celulr ya se registró previamente. Prueba otro valor en el campo phone.
 
 ### Iniciar sesión
 
-POST `api/auth/login`
+POST `/api/auth/login`
 
 Permite autenticar el usuario registrado
 
@@ -99,32 +99,26 @@ para todos los campos necesarios en sus formatos correctos.
 
 ### Obtener datos básicos del usuario
 
-GET `api/auth/login`
+GET `/api/auth/login`
 
 Te permite obtener los datos básicos del usuario autenticado. Requiere
 autenticación.
 
 ### Obtener productos
 
-GET `api/productos/recomendados`
+GET `/api/productos/recomendados`
 
 Te permite obtener los datos básicos de varios productos.
 
 ### Obtener datos adicionales del usuario
 
-GET `api/user/:id`
+GET `/api/users/me`
 
-retorna información detallada del usuario. Necesita autenticación.
-
-**Posibles errores**
-
-Status code 404 - "Usuario no encontrado". El id pasado por parámetro no
-está registrado. Intenta registrar un usuario nuevo o iniciar sesión para
-obtener un id válido.
+retorna información detallada del usuario. Requiere autenticación.
 
 ### Actualizar datos del usuario
 
-PATCH `api/user/:id`
+PATCH `/api/users/me`
 
 Permite actualizar datos básicos del usuario. Requiere autenticación.
 
@@ -214,7 +208,7 @@ celular proporcionado ya está registrado, prueba con otro.
 
 ### Eliminar usuario
 
-DELETE `api/user/:id`
+DELETE `/api/users/me`
 
 Permite eliminar el usuario. Requiere autenticación.
 
@@ -237,8 +231,165 @@ Ejemplo:
 Status code 401 - "Contraseña inválida" La contraseña proporcionada no
 coincide con la del usuario registrado.
 
-Status code 404 - "Usuario no encontrado" El id proporcionado por
-parámetro no está registrado.
+### Listar departamentos
+
+GET `/api/departaments`
+
+Retorna una lista con todos los departamentos de Colombia.
+
+Los IDs corresponden a códigos oficiales DIVIPOLA.
+
+### Listar municipios
+
+GET `/api/departments/:id/municipalities`
+
+Retorna una lista con todos los municipios del departamento con el id
+proporcionado.
+
+Los IDs corresponden a códigos oficiales DIVIPOLA.
+
+**Posibles errores**
+
+Status code 404 - "No existe ningún departamento con el código
+suministrado". El id proporcionado es inválido, inténtalo de nuevo con
+un id existente.
+
+### Asignar dirección
+
+POST `/api/users/me/addresses`
+
+Crea un registro de dirección y la asigna al usuario del correspondiente id.
+
+el cuerpo de la petición necesita estar en un formato JSON e incluir todos los
+siguientes campos:
+
+* `neighborhood` - String. Barrio del municipio, debe tener por lo menos 5
+caracteres.
+
+* `exactAddress` - String. Dirección exacta de la residencia. Debe tener por
+lo menos 10 caracteres.
+
+* `zipCode` - String. Código postal correspondiente al sector en el que está
+ubicada la residencia. Debe tener 6 digitos numéricos.
+
+* `municipalityId` - String. Código del municipio seleccionado. Debe de
+coincidir con un código de un municipio previamente registrado en la base de
+datos.
+
+Ejemplo:
+
+```bash
+    {
+        "neighborhood": "Las américas",
+        "exactAddress": "Cra 4 #36-42 5A",
+        "zipCode": "110110",
+        "municipalityId": "05001"
+    }
+```
+
+**Posibles errores**
+
+Status code 400 - "Nombre de barrio inválido". El campo `neighborhood` no
+cumple con el formato solicitado.
+
+Status code 400 - "La dirección proporcionada es inválida". El campo
+`exactAddress` no cumple con el formato solicitado.
+
+Status code 400 - "código de postal inválido". El campo `zipCode` no cumple
+con el formato solicitado.
+
+Status code 400 - "El código del municipio no existe". El id del municipio
+proporcionado en el campo `municipalityId` no está registrado.
+
+Status code 404 - "Datos incompletos". No se envió ningún dato. Debes de
+incluir todos los campos descritos anteriormente en el cuerpo de la petición.
+
+Status code 409 - "La dirección ya existe". La dirección proporcionada en
+`exactAddress` ya existe y por tanto no es posible crear la dirección.
+
+### Obtener direcciones del usuario
+
+GET `/api/users/me/addresses`
+
+El cuerpo de la respuesta contiene todas las direcciones asignadas al usuario.
+
+### Obtener una dirección en específico
+
+GET `/api/users/me/addresses/:id`
+
+El cuerpo de la respuesta contiene la información completa sobre la dirección
+con el id proporcionado.
+
+**Posibles errores**
+
+Status code 404 - "No existe una dirección con el código proporcionado". el id
+proporcionado no pertenece a ninguna dirección registrada. Intenta con otro
+valor.
+
+### Actualizar dirección
+
+PATCH `/api/users/me/addresses/:id`
+
+Permite actualizar la dirección con el id proporcionado:
+
+el cuerpo de la petición necesita estar en un formato JSON e incluir UNA
+de las siguientes propiedades:
+
+* `neighborhood` - String. Barrio del municipio, debe tener por lo menos 5
+caracteres.
+
+* `exactAddress` - String. Dirección exacta de la residencia. Debe tener por
+lo menos 10 caracteres.
+
+* `zipCode` - String. Código postal correspondiente al sector en el que está
+ubicada la residencia. Debe tener 6 digitos numéricos.
+
+* `municipalityId` - String. Código del municipio seleccionado. Debe de
+coincidir con un código de un municipio previamente registrado en la base de
+datos.
+
+Ejemplo:
+
+```bash
+    {
+        "neighborhood": "Santa fé",
+        "exactAddress": "Cra 5 #63-42 5A",
+        "zipCode": "63001",
+        "municipalityId": "05001"
+    }
+```
+
+**Posibles errores**
+
+Status code 400 - "Nombre de barrio inválido". El campo `neighborhood` no
+cumple con el formato solicitado.
+
+Status code 400 - "La dirección proporcionada es inválida". El campo
+`exactAddress` no cumple con el formato solicitado.
+
+Status code 400 - "código de postal inválido". El campo `zipCode` no cumple
+con el formato solicitado.
+
+Status code 400 - "El código del municipio no existe". El id del municipio
+proporcionado en el campo `municipalityId` no está registrado.
+
+Status code 404 - "Datos incompletos". No se envió ningún dato. Debes de
+incluir al menos un campo descrito anteriormente en el cuerpo de la petición.
+
+Status code 404 - "No existe una dirección con el código proporcionado". El id
+proporcionado no corresponde a ninguna dirección registrada. Intenta con otro.
+
+Status code 409 - "La dirección ya existe". La dirección proporcionada en
+`exactAddress` ya existe y por tanto no es posible crear la dirección.
+
+### Eliminar dirección
+
+DELETE `/api/users/me/addresses/:id`
+
+Elimina la dirección a la que le corresponde el id proporcionado.
+
+Status code 404 - "No existe una dirección con el código proporcionado". El id
+proporcionado no corresponde a ninguna dirección registrada. Intenta con otro.
 
 ### Errores adicionales
 
