@@ -4,14 +4,14 @@ import { findUserByEmail, findUserById, existsEmail, existsUsername ,insertUser,
 
 import { generateToken } from '../utils/jwt.js';
 
-import { mapUser } from '../services/mapData.js';
+import { mapUser } from '../utils/mapData.js';
 
 // Lógica de INICIO DE SESIÓN
 export async function login(req, res) {
     try {
         const {email, password} = req.body;
 
-        if (!email | !password) {
+        if (!email || !password) {
             return res.status(404).json({ message: 'Datos incompletos' });
         }
 

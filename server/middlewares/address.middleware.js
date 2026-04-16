@@ -1,5 +1,5 @@
 import { existsMunicipality } from "../models/municipio.model.js";
-import { isExactAddressValid, isNeighborhoodValid, isZipCodeValid } from "../services/verifyData.js";
+import { isExactAddressValid, isNeighborhoodValid, isZipCodeValid } from "../utils/verifyData.js";
 
 export function validateAddress({ required = false } = {}) {
 

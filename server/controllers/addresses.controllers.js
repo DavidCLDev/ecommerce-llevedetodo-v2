@@ -1,5 +1,5 @@
 import { insertAddress, fetchAddresses, fetchAddress, updateAddress, deleteUserAddressById, existsExactAddress } from "../models/direccion.model.js";
-import { mapAddressToBD } from "../services/mapData.js";
+import { mapAddressToBD } from "../utils/mapData.js";
 
 export async function createAddress(req, res) {
     try {

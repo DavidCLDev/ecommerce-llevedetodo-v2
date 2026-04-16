@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import { findPasswordById, findAdditionalDataById, deleteUserById, updateUsername, updateEmail, updatePhone, updateNames, findUserById, existsEmail, existsUsername, existsPhone } from "../models/usuario.model.js";
-import { mapAdditionalData, mapUser } from '../services/mapData.js';
-import { isPhoneValid, isNameValid } from '../services/verifyData.js';
+import { mapAdditionalData, mapUser } from '../utils/mapData.js';
+import { isPhoneValid, isNameValid } from '../utils/verifyData.js';
 
 export async function fetchAdditionalData(req, res) {
     try {
