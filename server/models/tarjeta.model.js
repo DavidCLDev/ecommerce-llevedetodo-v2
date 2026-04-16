@@ -16,7 +16,7 @@ export async function getCardsById(userId) {
 
     const [rows] = await pool.execute(
         `
-        SELECT titular, numero, vencimiento FROM tarjeta WHERE id_usuario = ?;
+        SELECT id, titular, numero, vencimiento FROM tarjeta WHERE id_usuario = ?;
         `, [userId]
     );
 
