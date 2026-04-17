@@ -110,7 +110,7 @@ export async function existsUsername(username) {
 }
 
 export async function existsPhone(phoneNumber) {
-    const[rows] = await pool.execute(
+    const[result] = await pool.execute(
         'SELECT EXISTS(SELECT 1 FROM usuario WHERE celular = ?) as phoneExists',
         [phoneNumber]
     )

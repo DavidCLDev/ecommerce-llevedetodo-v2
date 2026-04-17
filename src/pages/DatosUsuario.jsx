@@ -17,7 +17,7 @@ export default function DatosUsuario() {
             if (!user?.id) return;
 
             try {
-                const response = await fetchAdditionalData(user.id);
+                const response = await fetchAdditionalData();
     
                 if (response && response.status == 200) {
                     const data = await response.json();

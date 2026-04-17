@@ -1,16 +1,16 @@
 import { apiFetch } from './apiFetch';
 
-export async function fetchAdditionalData(endpoint, options) {
-    const response = await apiFetch(`user/${endpoint}`,{
+export async function fetchAdditionalData() {
+    const response = await apiFetch(`users/me`,{
         method: 'GET'
     });
 
     return response;
 }
 
-export async function updateUserData(id, body) {
+export async function updateUserData(body) {
 
-    const response = await apiFetch(`user/${id}`, {
+    const response = await apiFetch(`users/me`, {
         method: "PATCH",
         body: JSON.stringify(body)
     });
@@ -24,8 +24,8 @@ export async function updateUserData(id, body) {
     return updatedUser;
 }
 
-export async function deleteUser(endpoint, body) {
-    const response = await apiFetch(`user/${endpoint}`,{
+export async function deleteUser(body) {
+    const response = await apiFetch(`users/me`,{
         method: 'DELETE',
         body: JSON.stringify(body)
     });

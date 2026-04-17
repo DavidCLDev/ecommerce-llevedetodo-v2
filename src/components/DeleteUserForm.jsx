@@ -18,7 +18,7 @@ export default function DeleteUserForm() {
 
     async function submitForm(formData) {
         try {
-            const response = await deleteUser(user.id, formData);
+            const response = await deleteUser(formData);
 
             if (response.status === 204) {
                setOpen(true);

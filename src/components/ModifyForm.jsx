@@ -69,7 +69,7 @@ export default function ModifyForm({type}) {
 
     async function submitForm(formData) {
         try {
-            const updatedUser = await updateUserData(user.id, formData);
+            const updatedUser = await updateUserData(formData);
 
             if (updatedUser) {
                 setOpen(true);
