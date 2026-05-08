@@ -34,8 +34,9 @@ export async function createCompany(req, res) {
         const { nameCompanyIsDuplicated } = await nameCompanyExists(name);
 
         if (nameCompanyIsDuplicated) {
-            return res.status(409).json({ message: "La empresa ya está registrada" });
+            return res.status(409).json({ message: "El nombre ya está registrado" });
         }
+
         const { userHasCompany } = await sellerExists(req.user.id);
 
         if (userHasCompany) {
@@ -68,6 +69,23 @@ export async function createCompany(req, res) {
     }
 }
 
+export async function getCompany(req, res) {
+    try {
+
+        const { userHasCompany } = await sellerExists(req.user.id);
+
+        if (!userHasCompany) {
+            return res.status(404).json({ message: "el usuario no tiene asignada a ninguna empresa" });
+        }
+
+        const { name, description, logo, ...address } = await getCompanyById(req.user.id);
+
+        res.status(200).json({ name, description, logo, address });
+    } catch (error) {
+        res.status(500).json({ message: "Error del Servidor" });
+    }
+}
+
 export async function modifyCompanyData(req, res) {
     try {
         const {
@@ -78,6 +96,15 @@ export async function modifyCompanyData(req, res) {
             return res.status(400).json({ message:"Datos incompletos" });
         }
 
+        if (name && isNeighborhoodValid(name)) {
+            return res.status(400).json({ message:"Nombre de empresa inválido" });
+        }
+
+        const { nameCompanyIsDuplicated } = await nameCompanyExists(name);
+
+        if (nameCompanyIsDuplicated) {
+            return res.status(409).json({ message: "El nombre ya está registrado" });
+        }
 
         const data = mapCompanyToBD(name, description);
 
@@ -91,23 +118,6 @@ export async function modifyCompanyData(req, res) {
 
         res.status(204).send();
 
-    } catch (error) {
-        res.status(500).json({ message: "Error del Servidor" });
-    }
-}
-
-export async function getCompany(req, res) {
-    try {
-
-        const { userHasCompany } = await sellerExists(req.user.id);
-
-        if (!userHasCompany) {
-            return res.status(404).json({ message: "el usuario no tiene asignada a ninguna empresa" });
-        }
-
-        const { name, description, logo, ...address } = await getCompanyById(req.user.id);
-
-        res.status(200).json({ name, description, logo, address });
     } catch (error) {
         res.status(500).json({ message: "Error del Servidor" });
     }

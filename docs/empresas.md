@@ -5,19 +5,6 @@ comercializados en el sitio web.
 
 ## Endpoints
 
-### Obtener empresa
-
-GET `/api/companies`
-
-Retorna la información de la empresa que está a nombre del usuario. Requiere
-autenticación.
-
-**Posibles errores**
-
-Status code 404 - "el usuario no tiene asignado a ninguna empresa". El usuario
-no tiene una empresa registrada en su cuenta. Asegúrate de registrar la empresa
-antes de intentar obtener su información.
-
 ### Crear empresa
 
 POST `/api/companies`
@@ -39,7 +26,7 @@ reglas establecida para la creación de direcciones (revisar **direcciones.md
 
 Ejemplo:
 
- ```bash
+```bash
     {
         "name": "llevedetodo",
         "description": "La empresa llevedetodo, es una cadena de supermercados dedicados a comercializar productos de alta calidad..."
@@ -64,8 +51,8 @@ petición. Asegúrate de que incluir todos los campos necesarios para la acción
 Status code 400 - "Nombre de empresa inválido". El campo `name` no cumple con
 el formato solicitado.
 
-Status code 409 - "La empresa ya está registrada". El nombre de la empresa
-proporcionado en `name` ya existe en la base de datos y por tanto no es posible
+Status code 409 - "El nombre ya está registrado". El nombre de la empresa
+proporcionado en `name` pertenece a otra empresa y por tanto no es posible
 registrar la empresa. Prueba con otro nombre.
 
 Status code 409 - "el vendedor ya está asignado a otra empresa" . El usuario
@@ -75,6 +62,58 @@ una nueva.
 
 Status code 409 - "la dirección ya está asignada a otra empresa". La dirección
 proporcionada le pertenece a una empresa ya registrada. Prueba con otra.
+
+### Obtener empresa
+
+GET `/api/companies`
+
+Retorna la información de la empresa que está a nombre del usuario. Requiere
+autenticación.
+
+**Posibles errores**
+
+Status code 404 - "el usuario no tiene asignado a ninguna empresa". El usuario
+no tiene una empresa registrada en su cuenta. Asegúrate de registrar la empresa
+antes de intentar obtener su información.
+
+### Actualizar datos de la empresa
+
+PATCH `/api/companies`
+
+Actualiza los datos básicos de la empresa. Requiere autenticación.
+
+El cuerpo de la petición debe tener al menos UNO de estos campos a
+actualizar:
+
+* `name` - String. Nombre de la empresa. debe tener por lo menos 5
+caracteres. Debe ser único.
+
+* `description` - String. Párrafo descriptivo de la empresa.
+
+Ejemplo:
+
+```bash
+    {
+        "name": "llevedetodo",
+        "description": "La empresa llevedetodo, es una cadena de supermercados dedicados a comercializar productos de alta calidad..."
+    }
+```
+
+**Posibles errores**
+
+Status code 400 - "Datos incompletos". Falta algún dato en el cuerpo de la
+petición. Asegúrate de que incluir todos los campos necesarios para la acción.
+
+Status code 400 - "Nombre de empresa inválido". El campo `name` no cumple con
+el formato solicitado.
+
+Status code 409 - "El nombre ya está registrado". El nombre de la empresa
+proporcionado en `name` pertenece a otra empresa y por tanto no es posible
+registrar la empresa. Prueba con otro nombre.
+
+Status code 404 - "el usuario no tiene asignado a ninguna empresa". El usuario
+no tiene una empresa registrada en su cuenta. Asegúrate de registrar la empresa
+antes de intentar obtener su información.
 
 ### Eliminar empresa
 
