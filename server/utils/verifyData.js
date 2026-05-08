@@ -21,7 +21,7 @@ export function isNameValid(name) {
 }
 
 export function isNeighborhoodValid(neighborhood) {
-    return typeof neighborhood === "string" && neighborhood &&neighborhood.trim().length < 5;
+    return typeof neighborhood === "string" && neighborhood.trim().length < 5;
 }
 
 export function isExactAddressValid(exactAddress) {

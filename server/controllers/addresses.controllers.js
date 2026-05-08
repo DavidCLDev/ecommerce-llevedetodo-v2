@@ -3,25 +3,23 @@ import { mapAddressToBD } from "../utils/mapData.js";
 
 export async function createAddress(req, res) {
     try {
-        let { companyId } = req.params;
 
         const {
             neighborhood, exactAddress, zipCode,
             isMain, municipalityId
-        } = req.body;
+        } = req.body.address;
 
-        const exactAddressIsDuplicated = existsExactAddress()
+
+        const { exactAddressIsDuplicated } = await existsExactAddress(exactAddress)
 
         if (exactAddressIsDuplicated) {
             return res.status(409).json({ message: "La dirección ya existe" });
         }
 
-        if (!companyId) {
-            await insertAddress(
-                neighborhood, exactAddress, zipCode,
-                isMain, municipalityId, req.user.id
-            );
-        }
+        await insertAddress(
+            neighborhood, exactAddress, zipCode,
+            isMain, municipalityId, req.user.id
+        );
 
         return res.status(204).send();
 
@@ -90,7 +88,7 @@ export async function updateAddressData(req, res) {
     try {
         const addressId = Number(req.params.addressId);
         const userId = req.user.id;
-        const data = mapAddressToBD(req.body);
+        const data = mapAddressToBD(req.body.address);
 
         const updateConfirmed = await updateAddress(userId, addressId, data);
 

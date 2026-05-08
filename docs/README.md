@@ -8,7 +8,7 @@ GET `/health`
 
 retorna el estado de la API.
 
-## Posibles Errores generales
+## Posibles Errores genéricos
 
 Status code 401 - "No autorizado" Se omitió el header Authorization con
 el respectivo token. Asegúrate de establecer el token en el header

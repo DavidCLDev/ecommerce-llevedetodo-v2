@@ -1,7 +1,8 @@
 import { Router } from 'express';
 
+import { checkRequestBody } from '../middlewares/generic.middleware.js';
 import { verifyToken } from '../middlewares/auth.middleware.js';
-import { validateAddress } from '../middlewares/address.middleware.js';
+import { validateAddress, isAddressEmpty, checkForAllAddressFields, checkAddressObject } from '../middlewares/address.middleware.js';
 import { checkCard } from '../middlewares/cards.middleware.js';
 import { deleteUser, fetchAdditionalData, updateUserData } from '../controllers/users.controllers.js'
 import { createAddress, getBasicAddresses, getSpecificAddress, updateAddressData, deleteUserAddress } from '../controllers/addresses.controllers.js';
@@ -19,7 +20,7 @@ router.get('/me', verifyToken, fetchAdditionalData);
 router.patch('/me', verifyToken, updateUserData);
 
 // Crear direcciones
-router.post('/me/addresses', verifyToken, validateAddress({ required: true}), createAddress);
+router.post('/me/addresses', verifyToken, checkRequestBody, checkAddressObject, checkForAllAddressFields, validateAddress, createAddress);
 
 // Obtener direcciones del usuario
 router.get('/me/addresses', verifyToken, getBasicAddresses);
@@ -28,7 +29,7 @@ router.get('/me/addresses', verifyToken, getBasicAddresses);
 router.get('/me/addresses/:addressId', verifyToken, getSpecificAddress);
 
 // Actualizar datos específicos de una dirección
-router.patch('/me/addresses/:addressId', verifyToken, validateAddress(), updateAddressData)
+router.patch('/me/addresses/:addressId', verifyToken, checkRequestBody, checkAddressObject, isAddressEmpty, validateAddress, updateAddressData)
 
 // Eliminar dirección
 router.delete('/me/addresses/:addressId', verifyToken, deleteUserAddress);

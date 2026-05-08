@@ -23,3 +23,18 @@ export function mapAddressToBD({ neighborhood, exactAddress, zipCode, isMain, mu
 
     return mappedAddress
 }
+
+export function mapCompanyToBD(name, description) {
+    const mappedCompany = {
+        nombre: name,
+        descripcion: description
+    };
+
+    for (let [key, value] of Object.entries(mappedCompany)) {
+        if (!value) {
+            delete mappedCompany[key];
+        }
+    }
+
+    return mappedCompany
+}

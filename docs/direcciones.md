@@ -9,8 +9,9 @@ POST `/api/users/me/addresses`
 
 Crea un registro de dirección y la asigna al usuario del correspondiente id.
 
-el cuerpo de la petición necesita estar en un formato JSON e incluir todos los
-siguientes campos:
+el cuerpo de la petición necesita estar en un formato JSON e incluir únicamente
+el campo `address` el cual debe ser un Object y debe contener los siguientes
+atributos:
 
 * `neighborhood` - String. Barrio del municipio, debe tener por lo menos 5
 caracteres.
@@ -29,10 +30,12 @@ Ejemplo:
 
 ```bash
     {
-        "neighborhood": "Las américas",
-        "exactAddress": "Cra 4 #36-42 5A",
-        "zipCode": "110110",
-        "municipalityId": "05001"
+        "address": {
+            "neighborhood": "Las américas",
+            "exactAddress": "Cra 4 #36-42 5A",
+            "zipCode": "110110",
+            "municipalityId": "05001"
+        }
     }
 ```
 

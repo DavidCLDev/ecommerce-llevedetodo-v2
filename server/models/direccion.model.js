@@ -4,7 +4,7 @@ export async function insertAddress(
     neighborhood, exactAddress, zipCode,
     isMain=true, municipalityId, userId
 ) {
-    await pool.execute(
+    const [result] = await pool.execute(
         `INSERT INTO direccion (barrio, direccion_exacta, codigo_postal,
         es_principal, id_municipio, id_usuario) values (?, ?, ?, ?, ?, ?);`,
         [
@@ -12,6 +12,8 @@ export async function insertAddress(
             municipalityId,userId
         ]
     );
+
+    return result.insertId;
 
 }
 
@@ -44,31 +46,21 @@ export async function fetchAddress(userId, addressId) {
     return rows;
 }
 
-export async function existsExactAddress(exactAddress) {
-    const [result] = pool.execute(
-        `
-        SELECT EXISTS(SELECT 1 FROM direccion
-        WHERE direccion_exacta = ?) as exactAddressExists
-        `, [exactAddress]
-    );
-
-    return result[0];
-}
 
 export async function deleteUserAddressById(userId, addressId) {
-
+    
     const [result] = await pool.execute(
         "DELETE FROM direccion WHERE id = ? AND id_usuario = ?;",
         [addressId, userId]
     );
-
+    
     return result.affectedRows;
 }
 
 export async function updateAddress(userId, addressId, data) {
     const fields = [];
     const values = Object.values(data).concat([userId, addressId]);
-
+    
     for (let key in data) {
         fields.push(`${key} = ?`);
     }
@@ -77,6 +69,17 @@ export async function updateAddress(userId, addressId, data) {
         UPDATE direccion SET ${fields.join(",")}
         WHERE id_usuario = ? AND id = ?
         `, values);
-
+        
     return result.affectedRows;
+}
+
+export async function existsExactAddress(exactAddress) {
+    const [result] = await pool.execute(
+        `
+        SELECT EXISTS(SELECT 1 FROM direccion
+        WHERE direccion_exacta = ?) as exactAddressIsDuplicated
+        `, [exactAddress]
+    );
+
+    return result[0];
 }
