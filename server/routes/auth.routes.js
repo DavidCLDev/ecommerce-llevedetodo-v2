@@ -7,6 +7,8 @@ import { getProfile } from '../controllers/auth.controllers.js';
 
 import { register } from '../controllers/auth.controllers.js';
 
+import { checkForCompany } from '../middlewares/company.middleware.js';
+
 
 const router = Router();
 

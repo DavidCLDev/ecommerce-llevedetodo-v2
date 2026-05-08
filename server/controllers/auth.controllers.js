@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 
 import { findUserByEmail, findUserById, existsEmail, existsUsername ,insertUser, existsPhone } from '../models/usuario.model.js';
+import { getCompanyIdByUser } from "../models/empresa.model.js";
 
 import { generateToken } from '../utils/jwt.js';
 
@@ -15,7 +16,7 @@ export async function login(req, res) {
             return res.status(404).json({ message: 'Datos incompletos' });
         }
 
-        const { contrasena, ...usuario } = await findUserByEmail(email);
+        const { contrasena, ...user } = await findUserByEmail(email);
 
         // Se comparan los hashes de las contraseñas
         const isValid = await bcrypt.compare(password, contrasena);
@@ -23,13 +24,16 @@ export async function login(req, res) {
         if (!isValid) {
             return res.status(401).json({ message: 'Credenciales inválidas' });
         }
-
-        const user = mapUser(usuario);
-
+        
         // Se genera el token de autenticación
         const token = generateToken({
-            id: user.id
+            id: user.id,
+            company: user.companyId
         });
+
+        if (user.companyId) {
+            req.company = user.companyId;
+        }
         
         res.status(200).json({
             message: 'success',
@@ -121,13 +125,16 @@ export async function getProfile(req, res) {
     try {
         const userId = req.user.id;
 
-        const usuario = await findUserById(userId);
+
+        const user = await findUserById(userId);
         
-        if (!usuario) {
+        if (!user) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
 
-        const user = mapUser(usuario);
+        if (user.companyId) {
+            req.company = user.companyId;
+        }
 
         res.json({user});
     } catch (error) {

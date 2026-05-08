@@ -1,4 +1,7 @@
 import pool from "../config/db.js";
+
+import { generateToken } from '../utils/jwt.js';
+
 import { insertAddress, existsExactAddress } from "../models/direccion.model.js";
 import { addressExists, deleteCompanyByUser, getCompanyById, insertCompany, nameCompanyExists, sellerExists, updateCompany } from "../models/empresa.model.js";
 import { mapCompanyToBD } from "../utils/mapData.js";
@@ -57,11 +60,16 @@ export async function createCompany(req, res) {
             return res.status(409).json({ message: "la dirección ya está asignada a otra empresa" });
         }
         
-        await insertCompany(name.trim().replace(/\s+/g, ' '), description, addressId, req.user.id);
+        const companyId = await insertCompany(name.trim().replace(/\s+/g, ' '), description, addressId, req.user.id);
 
         await conn.commit();
 
-        return res.status(204).send();
+        const token = generateToken({
+            id: req.user.id,
+            company: companyId
+        });
+
+        res.status(200).json({ token: token });
 
     } catch (error) {
         await conn.rollback();
@@ -71,10 +79,7 @@ export async function createCompany(req, res) {
 
 export async function getCompany(req, res) {
     try {
-
-        const { userHasCompany } = await sellerExists(req.user.id);
-
-        if (!userHasCompany) {
+        if (!req.user.company) {
             return res.status(404).json({ message: "el usuario no tiene asignada a ninguna empresa" });
         }
 
@@ -91,6 +96,10 @@ export async function modifyCompanyData(req, res) {
         const {
             name, description
         } = req.body;
+
+        if (!req.user.company) {
+            return res.status(404).json({ message: "el usuario no tiene asignada a ninguna empresa" });
+        }
 
         if (!name && !description) {
             return res.status(400).json({ message:"Datos incompletos" });
@@ -126,15 +135,17 @@ export async function modifyCompanyData(req, res) {
 export async function deleteCompany(req, res) {
     try {
 
-        const { userHasCompany } = await sellerExists(req.user.id);
-
-        if (!userHasCompany) {
+        if (!req.user.company) {
             return res.status(404).json({ message: "el usuario no tiene asignada a ninguna empresa" });
         }
 
         await deleteCompanyByUser(req.user.id);
 
-        res.status(204).send();
+        const token = generateToken({
+            id: req.user.id
+        });
+
+        res.status(200).json({ token: token });
     } catch (error) {
         res.status(500).json({ message: "Error del Servidor" });
     }

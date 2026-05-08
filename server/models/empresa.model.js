@@ -2,12 +2,14 @@ import pool from "../config/db.js";
 
 export async function insertCompany(name, descr, AddressId, sellerId) {
 
-    await pool.execute(`
+    const [result] = await pool.execute(`
         INSERT INTO empresa
         (nombre, descripcion, fecha_registro, logo, id_direccion, id_vendedor)
         VALUES (?, ?, ?, ?, ?, ?);
         `, [name, descr, new Date(), `/uploads/companies/${crypto.randomUUID()}.png`, AddressId, sellerId]
     );
+
+    return result.insertId;
 
 }
 
@@ -39,6 +41,15 @@ export async function getCompanyById(id) {
         JOIN municipio m ON d.id_municipio = m.id
         JOIN departamento dep ON m.id_departamento = dep.id
         WHERE e.id_vendedor = ?;
+        `, [id]
+    );
+
+    return result[0];
+}
+
+export async function getCompanyIdByUser(id) {
+    const [result] = await pool.execute(`
+        SELECT id as id FROM empresa WHERE id_vendedor = ?
         `, [id]
     );
 
