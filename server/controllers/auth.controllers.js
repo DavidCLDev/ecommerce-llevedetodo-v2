@@ -18,6 +18,10 @@ export async function login(req, res) {
 
         const { contrasena, ...user } = await findUserByEmail(email);
 
+        if (!contrasena) {
+            return res.status(401).json({ message: 'Credenciales inválidas' });
+        }
+
         // Se comparan los hashes de las contraseñas
         const isValid = await bcrypt.compare(password, contrasena);
         

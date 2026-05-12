@@ -15,11 +15,11 @@ export async function findUserByEmail(email) {
         SELECT u.id, u.nombre as name, u.nombre_de_usuario as username,
         u.correo as email, u.contrasena, e.id as companyId
         FROM usuario u LEFT JOIN empresa e on u.id = e.id_vendedor
-        WHERE u.correo = ?
+        WHERE u.correo = ?;
         `, [email]
     );
 
-    return rows[0];
+    return rows[0] ?? {};
 }
 
 export async function findUserById(id) {
