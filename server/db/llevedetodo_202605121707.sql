@@ -37,15 +37,6 @@ CREATE TABLE `carrito` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `carrito`
---
-
-LOCK TABLES `carrito` WRITE;
-/*!40000 ALTER TABLE `carrito` DISABLE KEYS */;
-/*!40000 ALTER TABLE `carrito` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `categoria`
 --
 
@@ -56,23 +47,11 @@ CREATE TABLE `categoria` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Representa el número único identificador de la categoría',
   `nombre` varchar(30) NOT NULL COMMENT 'el nombre de la categoría',
   `descripcion` varchar(150) DEFAULT NULL COMMENT 'La descripción de dicha categoría',
-  `id_padre` int(11) NOT NULL COMMENT 'La categoría padre de la categoría',
   PRIMARY KEY (`id`),
   UNIQUE KEY `nombre_UNIQUE` (`nombre`),
-  UNIQUE KEY `descripcion_UNIQUE` (`descripcion`),
-  KEY `fk_Categoria_Categoria1_idx` (`id_padre`),
-  CONSTRAINT `fk_Categoria_Categoria1` FOREIGN KEY (`id_padre`) REFERENCES `categoria` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+  UNIQUE KEY `descripcion_UNIQUE` (`descripcion`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `categoria`
---
-
-LOCK TABLES `categoria` WRITE;
-/*!40000 ALTER TABLE `categoria` DISABLE KEYS */;
-/*!40000 ALTER TABLE `categoria` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `departamento`
@@ -82,55 +61,12 @@ DROP TABLE IF EXISTS `departamento`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `departamento` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Representa el número único identificador del departamento',
+  `id` int(11) NOT NULL COMMENT 'Representa el número único identificador del departamento',
   `nombre` varchar(45) NOT NULL COMMENT 'El nombre del departamento',
   PRIMARY KEY (`id`),
   UNIQUE KEY `nombre_UNIQUE` (`nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `departamento`
---
-
-LOCK TABLES `departamento` WRITE;
-/*!40000 ALTER TABLE `departamento` DISABLE KEYS */;
-INSERT INTO `departamento` VALUES
-(29,'AMAZONAS'),
-(1,'ANTIOQUIA'),
-(25,'ARAUCA'),
-(2,'ATLÁNTICO'),
-(3,'BOGOTÁ, D.C.'),
-(4,'BOLÍVAR'),
-(5,'BOYACÁ'),
-(6,'CALDAS'),
-(7,'CAQUETÁ'),
-(26,'CASANARE'),
-(8,'CAUCA'),
-(9,'CESAR'),
-(12,'CHOCÓ'),
-(10,'CÓRDOBA'),
-(11,'CUNDINAMARCA'),
-(30,'GUAINÍA'),
-(31,'GUAVIARE'),
-(13,'HUILA'),
-(14,'LA GUAJIRA'),
-(15,'MAGDALENA'),
-(16,'META'),
-(17,'NARIÑO'),
-(18,'NORTE DE SANTANDER'),
-(27,'PUTUMAYO'),
-(19,'QUINDIO'),
-(20,'RISARALDA'),
-(28,'SAN ANDRÉS, PROVIDENCIA Y SANTA CATALINA'),
-(21,'SANTANDER'),
-(22,'SUCRE'),
-(23,'TOLIMA'),
-(24,'VALLE DEL CAUCA'),
-(33,'VAUPÉS'),
-(32,'VICHADA');
-/*!40000 ALTER TABLE `departamento` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `detalle_factura`
@@ -154,15 +90,6 @@ CREATE TABLE `detalle_factura` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `detalle_factura`
---
-
-LOCK TABLES `detalle_factura` WRITE;
-/*!40000 ALTER TABLE `detalle_factura` DISABLE KEYS */;
-/*!40000 ALTER TABLE `detalle_factura` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `direccion`
 --
 
@@ -170,29 +97,21 @@ DROP TABLE IF EXISTS `direccion`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `direccion` (
-  `id` int(11) NOT NULL COMMENT 'Representa el número único identificador de la dirección',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Representa el número único identificador de la dirección',
   `barrio` varchar(40) NOT NULL COMMENT 'El barrio en el que se ubica la dirección',
   `direccion_exacta` varchar(100) DEFAULT NULL COMMENT 'La dirección exacta suministrada por el usuario',
   `codigo_postal` varchar(6) NOT NULL COMMENT 'El código postaEl código postal de la direcciónl de la dirección',
-  `es_principal` tinyint(4) NOT NULL DEFAULT 0 COMMENT 'Variable que identifica si la dirección es la preferida del usuario o es secundaria',
-  `id_municipio` int(11) NOT NULL COMMENT 'El municipio en el que se encuentra ubicado la dirección',
+  `es_principal` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'Variable que identifica si la dirección es la preferida del usuario o es secundaria',
   `id_usuario` int(11) NOT NULL COMMENT 'El usuario al que pertenece la dirección',
+  `id_municipio` varchar(6) NOT NULL COMMENT 'El municipio en el que se encuentra ubicado la dirección',
   PRIMARY KEY (`id`),
-  KEY `fk_Direccion_Municipio1_idx` (`id_municipio`),
+  UNIQUE KEY `direccion_unique` (`direccion_exacta`),
   KEY `fk_Direccion_Usuario1_idx` (`id_usuario`),
-  CONSTRAINT `fk_Direccion_Municipio1` FOREIGN KEY (`id_municipio`) REFERENCES `municipio` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  KEY `direccion_municipio_FK` (`id_municipio`),
+  CONSTRAINT `direccion_municipio_FK` FOREIGN KEY (`id_municipio`) REFERENCES `municipio` (`id`),
   CONSTRAINT `fk_Direccion_Usuario1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `direccion`
---
-
-LOCK TABLES `direccion` WRITE;
-/*!40000 ALTER TABLE `direccion` DISABLE KEYS */;
-/*!40000 ALTER TABLE `direccion` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `empresa`
@@ -202,30 +121,23 @@ DROP TABLE IF EXISTS `empresa`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `empresa` (
-  `id` int(11) NOT NULL COMMENT 'Representa el número único identificador de la empresa',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Representa el número único identificador de la empresa',
   `nombre` varchar(50) NOT NULL COMMENT 'El nombre o razón social de la empresa',
-  `descripcion` varchar(200) NOT NULL COMMENT 'Pequeña descripción sobre a lo que se dedica la empresa',
+  `descripcion` varchar(500) NOT NULL COMMENT 'Pequeña descripción sobre a lo que se dedica la empresa',
   `fecha_registro` date NOT NULL COMMENT 'La fecha en la que se registró la empresa',
   `logo` varchar(255) NOT NULL COMMENT 'Ruta en la que se encuentra la Imagen o slogan representativa de la empresa',
   `id_direccion` int(11) NOT NULL COMMENT 'Dirección en la que se encuentra ubicada la empresa',
   `id_vendedor` int(11) NOT NULL COMMENT 'Cuenta de usuario de la empresa\n',
   PRIMARY KEY (`id`),
   UNIQUE KEY `nombre_UNIQUE` (`nombre`),
+  UNIQUE KEY `vendedor_unique` (`id_vendedor`),
+  UNIQUE KEY `direccion_unique` (`id_direccion`),
   KEY `fk_Empresa_Direccion1_idx` (`id_direccion`),
   KEY `fk_empresa_usuario1_idx` (`id_vendedor`),
   CONSTRAINT `fk_Empresa_Direccion1` FOREIGN KEY (`id_direccion`) REFERENCES `direccion` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_empresa_usuario1` FOREIGN KEY (`id_vendedor`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `empresa`
---
-
-LOCK TABLES `empresa` WRITE;
-/*!40000 ALTER TABLE `empresa` DISABLE KEYS */;
-/*!40000 ALTER TABLE `empresa` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `empresa_rubro`
@@ -246,15 +158,6 @@ CREATE TABLE `empresa_rubro` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `empresa_rubro`
---
-
-LOCK TABLES `empresa_rubro` WRITE;
-/*!40000 ALTER TABLE `empresa_rubro` DISABLE KEYS */;
-/*!40000 ALTER TABLE `empresa_rubro` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `estado`
 --
 
@@ -270,15 +173,6 @@ CREATE TABLE `estado` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `estado`
---
-
-LOCK TABLES `estado` WRITE;
-/*!40000 ALTER TABLE `estado` DISABLE KEYS */;
-/*!40000 ALTER TABLE `estado` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `etiqueta`
 --
 
@@ -292,15 +186,6 @@ CREATE TABLE `etiqueta` (
   UNIQUE KEY `nombre_UNIQUE` (`nombre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `etiqueta`
---
-
-LOCK TABLES `etiqueta` WRITE;
-/*!40000 ALTER TABLE `etiqueta` DISABLE KEYS */;
-/*!40000 ALTER TABLE `etiqueta` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `factura`
@@ -327,15 +212,6 @@ CREATE TABLE `factura` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `factura`
---
-
-LOCK TABLES `factura` WRITE;
-/*!40000 ALTER TABLE `factura` DISABLE KEYS */;
-/*!40000 ALTER TABLE `factura` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `imagen`
 --
 
@@ -348,19 +224,11 @@ CREATE TABLE `imagen` (
   `es_principal` tinyint(4) NOT NULL DEFAULT 0 COMMENT 'Variable que identifica si la imagen del producto es la que más lo identifica',
   `id_producto` int(11) NOT NULL COMMENT 'Producto al que pertenece la imagen',
   PRIMARY KEY (`id`),
+  UNIQUE KEY `ruta_unique` (`ruta`),
   KEY `fk_Imagen_Producto1_idx` (`id_producto`),
   CONSTRAINT `fk_Imagen_Producto1` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `imagen`
---
-
-LOCK TABLES `imagen` WRITE;
-/*!40000 ALTER TABLE `imagen` DISABLE KEYS */;
-/*!40000 ALTER TABLE `imagen` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `marca`
@@ -378,15 +246,6 @@ CREATE TABLE `marca` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `marca`
---
-
-LOCK TABLES `marca` WRITE;
-/*!40000 ALTER TABLE `marca` DISABLE KEYS */;
-/*!40000 ALTER TABLE `marca` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `municipio`
 --
 
@@ -394,7 +253,7 @@ DROP TABLE IF EXISTS `municipio`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `municipio` (
-  `id` int(11) NOT NULL COMMENT 'Representa el número único identificador del municipio',
+  `id` varchar(6) NOT NULL COMMENT 'Representa el número único identificador del municipio',
   `nombre` varchar(40) NOT NULL COMMENT 'El nombre del municipio',
   `id_departamento` int(11) NOT NULL COMMENT 'El departamento en el que se encuentra ubicado el municipio',
   PRIMARY KEY (`id`),
@@ -402,15 +261,6 @@ CREATE TABLE `municipio` (
   CONSTRAINT `fk_Municipio_Departamento1` FOREIGN KEY (`id_departamento`) REFERENCES `departamento` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `municipio`
---
-
-LOCK TABLES `municipio` WRITE;
-/*!40000 ALTER TABLE `municipio` DISABLE KEYS */;
-/*!40000 ALTER TABLE `municipio` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `opinion`
@@ -433,15 +283,6 @@ CREATE TABLE `opinion` (
   CONSTRAINT `fk_Opinion_Usuario1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `opinion`
---
-
-LOCK TABLES `opinion` WRITE;
-/*!40000 ALTER TABLE `opinion` DISABLE KEYS */;
-/*!40000 ALTER TABLE `opinion` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `pregunta`
@@ -467,15 +308,6 @@ CREATE TABLE `pregunta` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `pregunta`
---
-
-LOCK TABLES `pregunta` WRITE;
-/*!40000 ALTER TABLE `pregunta` DISABLE KEYS */;
-/*!40000 ALTER TABLE `pregunta` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `producto`
 --
 
@@ -486,30 +318,25 @@ CREATE TABLE `producto` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Representa el número único identificador del Producto',
   `nombre` varchar(100) NOT NULL COMMENT 'Es el nombre con el que se conoce al producto',
   `precio` int(11) NOT NULL COMMENT 'El valor monetario del producto',
-  `descuento` decimal(3,2) NOT NULL COMMENT 'Pequeño porcentaje que se le resta al valor del producto si tiene descuento',
+  `descuento` decimal(3,2) NOT NULL DEFAULT 0.00 COMMENT 'Pequeño porcentaje que se le resta al valor del producto si tiene descuento',
   `costo_envio` int(11) NOT NULL DEFAULT 0 COMMENT 'El valor que costará distribuir el producto',
   `stock` int(11) NOT NULL COMMENT 'Cantidad de unidades disponibles del producto en inventario',
-  `marca` varchar(30) NOT NULL COMMENT 'La marca que comercializa el producto',
+  `marca` varchar(40) NOT NULL COMMENT 'La marca que comercializa el producto',
   `calificacion` decimal(3,2) NOT NULL DEFAULT 0.00 COMMENT 'El promedio de la puntuación que dan los usuarios al producto',
-  `descripcion` varchar(150) NOT NULL COMMENT 'Descripción del producto a vender en la que se detallan sus características',
+  `descripcion` varchar(300) NOT NULL COMMENT 'Descripción del producto a vender en la que se detallan sus características',
   `id_categoria` int(11) NOT NULL COMMENT 'La categoría a la que pertenece el producto',
-  `id_vendedor` int(11) NOT NULL COMMENT 'El vendedor del producto',
+  `id_empresa` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_Producto_Categoria1_idx` (`id_categoria`),
-  KEY `fk_Producto_Usuario1_idx` (`id_vendedor`),
+  KEY `producto_empresa_FK` (`id_empresa`),
   CONSTRAINT `fk_Producto_Categoria1` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Producto_Usuario1` FOREIGN KEY (`id_vendedor`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+  CONSTRAINT `producto_empresa_FK` FOREIGN KEY (`id_empresa`) REFERENCES `empresa` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `precio_check` CHECK (`precio` > 50),
+  CONSTRAINT `descuento_check` CHECK (`descuento` >= 0 and `descuento` < 1),
+  CONSTRAINT `stock_check` CHECK (`stock` >= 0),
+  CONSTRAINT `envio_check` CHECK (`costo_envio` >= 0)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `producto`
---
-
-LOCK TABLES `producto` WRITE;
-/*!40000 ALTER TABLE `producto` DISABLE KEYS */;
-/*!40000 ALTER TABLE `producto` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `producto_etiqueta`
@@ -530,15 +357,6 @@ CREATE TABLE `producto_etiqueta` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `producto_etiqueta`
---
-
-LOCK TABLES `producto_etiqueta` WRITE;
-/*!40000 ALTER TABLE `producto_etiqueta` DISABLE KEYS */;
-/*!40000 ALTER TABLE `producto_etiqueta` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `rubro`
 --
 
@@ -554,15 +372,6 @@ CREATE TABLE `rubro` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `rubro`
---
-
-LOCK TABLES `rubro` WRITE;
-/*!40000 ALTER TABLE `rubro` DISABLE KEYS */;
-/*!40000 ALTER TABLE `rubro` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `tarjeta`
 --
 
@@ -570,31 +379,18 @@ DROP TABLE IF EXISTS `tarjeta`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tarjeta` (
-  `id` int(11) NOT NULL COMMENT 'Representa el número único identificador de la tarjeta',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Representa el número único identificador de la tarjeta',
   `titular` varchar(60) NOT NULL COMMENT 'El nombre del usuario que es titular de la tarjeta',
-  `numero` varchar(20) NOT NULL COMMENT 'El número enmascarado de la tarjeta',
-  `vencimiento` date NOT NULL COMMENT 'La fecha de vencimiento de la tarjeta',
-  `id_tipo_tarjeta` int(11) NOT NULL COMMENT 'Tipo al que pertenece la tarjeta',
-  `id_marca` int(11) NOT NULL COMMENT 'Representa la marca de la tarjeta en cuestión',
+  `numero` varchar(4) NOT NULL COMMENT 'El número enmascarado de la tarjeta',
+  `vencimiento` varchar(5) NOT NULL COMMENT 'La fecha de vencimiento de la tarjeta',
+  `token` varchar(36) NOT NULL,
   `id_usuario` int(11) NOT NULL COMMENT 'Usuario al que le pertenece la tarjeta',
   PRIMARY KEY (`id`),
-  KEY `fk_Tarjeta_TipoTarjeta1_idx` (`id_tipo_tarjeta`),
-  KEY `fk_Tarjeta_Marca1_idx` (`id_marca`),
+  UNIQUE KEY `token_unique` (`token`),
   KEY `fk_Tarjeta_Usuario1_idx` (`id_usuario`),
-  CONSTRAINT `fk_Tarjeta_Marca1` FOREIGN KEY (`id_marca`) REFERENCES `marca` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Tarjeta_TipoTarjeta1` FOREIGN KEY (`id_tipo_tarjeta`) REFERENCES `tipo_tarjeta` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_Tarjeta_Usuario1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tarjeta`
---
-
-LOCK TABLES `tarjeta` WRITE;
-/*!40000 ALTER TABLE `tarjeta` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tarjeta` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tipo_tarjeta`
@@ -604,21 +400,12 @@ DROP TABLE IF EXISTS `tipo_tarjeta`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tipo_tarjeta` (
-  `id` int(11) NOT NULL COMMENT 'Representa el número único identificador del tipo de tarjeta',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Representa el número único identificador del tipo de tarjeta',
   `nombre` varchar(10) NOT NULL COMMENT 'nombre del tipo de tarjeta ("CREDITO", "DEBITO", ...)',
   PRIMARY KEY (`id`),
   UNIQUE KEY `nombre_UNIQUE` (`nombre`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tipo_tarjeta`
---
-
-LOCK TABLES `tipo_tarjeta` WRITE;
-/*!40000 ALTER TABLE `tipo_tarjeta` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tipo_tarjeta` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `usuario`
@@ -641,17 +428,8 @@ CREATE TABLE `usuario` (
   UNIQUE KEY `nombreDeUsuario_UNIQUE` (`nombre_de_usuario`),
   UNIQUE KEY `correo_UNIQUE` (`correo`),
   UNIQUE KEY `celular_UNIQUE` (`celular`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `usuario`
---
-
-LOCK TABLES `usuario` WRITE;
-/*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-/*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Dumping routines for database 'llevedetodo'
@@ -666,4 +444,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-04-09 12:05:50
+-- Dump completed on 2026-05-12 17:07:02
