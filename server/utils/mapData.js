@@ -21,7 +21,7 @@ export function mapAddressToBD({ neighborhood, exactAddress, zipCode, isMain, mu
         }
     }
 
-    return mappedAddress
+    return mappedAddress;
 }
 
 export function mapCompanyToBD(name, description) {
@@ -36,5 +36,29 @@ export function mapCompanyToBD(name, description) {
         }
     }
 
-    return mappedCompany
+    return mappedCompany;
+}
+
+export function mapProductToBD({
+    name, price, discount, shippingCost,
+    stock, brand, description, catId
+}) {
+    const mappedProduct = {
+        nombre: name,
+        precio: price,
+        descuento: discount,
+        costo_envio: shippingCost,
+        stock,
+        marca: brand,
+        descripcion: description,
+        id_categoria: catId
+    };
+
+    for (let [key, value] of Object.entries(mappedProduct)) {
+        if (!value && value !== 0) {
+            delete mappedProduct[key];
+        }
+    }
+
+    return mappedProduct;
 }

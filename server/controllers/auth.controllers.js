@@ -59,7 +59,7 @@ export async function register(req, res) {
             password
         } = req.body;
 
-        if (!name | !lastname | !email | !phone | !username | !password) {
+        if (!name || !lastname || !email || !phone || !username || !password) {
             return res.status(404).json({message: 'Datos incompletos'});
         }
 

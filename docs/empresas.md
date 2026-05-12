@@ -107,13 +107,14 @@ petición. Asegúrate de que incluir todos los campos necesarios para la acción
 Status code 400 - "Nombre de empresa inválido". El campo `name` no cumple con
 el formato solicitado.
 
+Status code 401 - "el usuario no tiene asignado a ninguna empresa". El usuario
+no tiene una empresa registrada en su cuenta. Asegúrate de registrar la empresa
+antes de intentar obtener su información.
+
 Status code 409 - "El nombre ya está registrado". El nombre de la empresa
 proporcionado en `name` pertenece a otra empresa y por tanto no es posible
 registrar la empresa. Prueba con otro nombre.
 
-Status code 404 - "el usuario no tiene asignado a ninguna empresa". El usuario
-no tiene una empresa registrada en su cuenta. Asegúrate de registrar la empresa
-antes de intentar obtener su información.
 
 ### Eliminar empresa
 
@@ -126,6 +127,6 @@ Elimina la empresa asignada al usuario. Requiere autenticación.
 Status code 400 - "Datos incompletos". Falta algún dato en el cuerpo de la
 petición. Asegúrate de que incluir todos los campos necesarios para la acción.
 
-Status code 404 - "el usuario no tiene asignada a ninguna empresa". El usuario
+Status code 401 - "el usuario no tiene asignada a ninguna empresa". El usuario
 no tiene una empresa registrada en su cuenta. Asegúrate de tener registrada la
 empresa antes de intentar eliminarla.

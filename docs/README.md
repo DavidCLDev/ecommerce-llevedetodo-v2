@@ -10,6 +10,9 @@ retorna el estado de la API.
 
 ## Posibles Errores genéricos
 
+Status code 400 - "Datos incompletos". Falta algún dato en el cuerpo de la
+petición. Asegúrate de incluir todos los campos necesarios para la acción.
+
 Status code 401 - "No autorizado" Se omitió el header Authorization con
 el respectivo token. Asegúrate de establecer el token en el header
 Athorization siguiendo este formato: `Bearer <Token>`

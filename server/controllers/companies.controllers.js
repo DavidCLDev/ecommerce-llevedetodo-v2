@@ -60,7 +60,12 @@ export async function createCompany(req, res) {
             return res.status(409).json({ message: "la dirección ya está asignada a otra empresa" });
         }
         
-        const companyId = await insertCompany(name.trim().replace(/\s+/g, ' '), description, addressId, req.user.id);
+        const companyId = await insertCompany(
+            name.trim().replace(/\s+/g, ' '),
+            description,
+            addressId,
+            req.user.id
+        );
 
         await conn.commit();
 
@@ -79,11 +84,21 @@ export async function createCompany(req, res) {
 
 export async function getCompany(req, res) {
     try {
-        if (!req.user.company) {
-            return res.status(404).json({ message: "el usuario no tiene asignada a ninguna empresa" });
+        const seller = req.user.id;
+        const company = req.user.company
+
+        if (!company) {
+            return res.status(401).json({
+                message: "el usuario no tiene asignada a ninguna empresa"
+            });
         }
 
-        const { name, description, logo, ...address } = await getCompanyById(req.user.id);
+        const {
+            name,
+            description,
+            logo,
+            ...address
+        } = await getCompanyById(seller, company);
 
         res.status(200).json({ name, description, logo, address });
     } catch (error) {
@@ -98,7 +113,9 @@ export async function modifyCompanyData(req, res) {
         } = req.body;
 
         if (!req.user.company) {
-            return res.status(404).json({ message: "el usuario no tiene asignada a ninguna empresa" });
+            return res.status(404).json({
+                message: "el usuario no tiene asignada a ninguna empresa"
+            });
         }
 
         if (!name && !description) {
@@ -135,14 +152,19 @@ export async function modifyCompanyData(req, res) {
 export async function deleteCompany(req, res) {
     try {
 
-        if (!req.user.company) {
-            return res.status(404).json({ message: "el usuario no tiene asignada a ninguna empresa" });
+        const seller = req.user.id;
+        const company = req.user.company;
+
+        if (!company) {
+            return res.status(401).json({
+                message: "el usuario no tiene asignada a ninguna empresa"
+            });
         }
 
-        await deleteCompanyByUser(req.user.id);
+        await deleteCompanyByUser(seller, company);
 
         const token = generateToken({
-            id: req.user.id
+            id: seller
         });
 
         res.status(200).json({ token: token });

@@ -6,7 +6,11 @@ export async function insertCompany(name, descr, AddressId, sellerId) {
         INSERT INTO empresa
         (nombre, descripcion, fecha_registro, logo, id_direccion, id_vendedor)
         VALUES (?, ?, ?, ?, ?, ?);
-        `, [name, descr, new Date(), `/uploads/companies/${crypto.randomUUID()}.png`, AddressId, sellerId]
+        `, [
+            name, descr, new Date(),
+            `/uploads/companies/${crypto.randomUUID()}.png`, AddressId,
+            sellerId
+        ]
     );
 
     return result.insertId;
@@ -30,7 +34,7 @@ export async function updateCompany(sellerId, data) {
     return result.affectedRows;
 }
 
-export async function getCompanyById(id) {
+export async function getCompanyById(sellerId, companyId) {
     const [result] = await pool.execute(`
         SELECT e.nombre as name, e.descripcion as description, logo,
         d.barrio as neighborhood, d.direccion_exacta as exactAddress,
@@ -40,8 +44,8 @@ export async function getCompanyById(id) {
         JOIN direccion d ON e.id_direccion = d.id
         JOIN municipio m ON d.id_municipio = m.id
         JOIN departamento dep ON m.id_departamento = dep.id
-        WHERE e.id_vendedor = ?;
-        `, [id]
+        WHERE e.id = ? AND e.id_vendedor = ?;
+        `, [companyId, sellerId]
     );
 
     return result[0];
@@ -56,9 +60,10 @@ export async function getCompanyIdByUser(id) {
     return result[0];
 }
 
-export async function deleteCompanyByUser(userId) {
+export async function deleteCompanyByUser(sellerId, companyId) {
     const [result] = await pool.execute(
-        `DELETE FROM empresa WHERE id_vendedor = ?;`, [userId]
+        `DELETE FROM empresa WHERE id = ? AND id_vendedor = ?;`,
+        [companyId, sellerId]
     );
 
     return result;

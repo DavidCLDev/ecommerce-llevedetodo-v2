@@ -12,6 +12,6 @@ export async function checkForCompany(req, res, next) {
 
         next();
     } catch (error) {
-        res.status(500).json({ message: "Error del servidor" })
+        res.status(500).json({ message: "Error del servidor" });
     }
 }
