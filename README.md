@@ -70,8 +70,13 @@ npm install
 ### 3️⃣ Configurar la base de datos
 
 1. Crear una base de datos en MariaDB.
-2. Importar en la base de datos creada el script ubicado en:
-   `/server/db/llevedetodo_202603041331.sql`
+2. Para la creación de la base de datos, Importar en MariaDB el script ubicado en:
+   `/server/db/departamento_202605121712.sql`
+3. Importar inserts complementarios ubicados en:
+   * `/server/db/departamento_202605121712.sql`
+   * `/server/db/municipio_202605121711.sql`
+   * `/server/db/categoria_202605121710.sql`
+
 
 ### 4️⃣ Crear variables de entorno
 
@@ -108,15 +113,4 @@ npm run dev
 
 - Fullstack developer
 - Estudiante de ingeniería de sistemas
-- Estudiante de Análisis y Desarrollo de Software
-
-### Freyler Yesid Contrera
-
-- Documentación
-- Diseño UI
-- Estudiante de Análisis y Desarrollo de Software
-
-### Gustavo Grisales Soto
-- Frontend Developer
-- Diseño UI
 - Estudiante de Análisis y Desarrollo de Software
