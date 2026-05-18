@@ -79,7 +79,16 @@ envío del registro de un producto en la base de datos. */
 export async function setShippingCostById(id, shippingCost) {
     // Ejecuta la consulta para actualizar el costo de envío de un producto.
     const [result] = await pool.execute(`
-        UPDATE FROM producto SET costo_envio = ? WHERE id = ?;
+        UPDATE producto SET costo_envio = ? WHERE id = ?;
         `, [shippingCost, id]
     );
+}
+
+export async function productExists(id) {
+    const [result] = await pool.execute(`
+        SELECT EXISTS (SELECT 1 FROM producto WHERE id = ?) AS productExistence
+        `, [id]
+    );
+
+    return result[0];
 }

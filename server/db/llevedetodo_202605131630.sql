@@ -27,7 +27,6 @@ CREATE TABLE `carrito` (
   `id_producto` int(11) NOT NULL COMMENT 'Representa el número único identificador del producto guardado por el usuario',
   `id_usuario` int(11) NOT NULL COMMENT 'Representa el número único identificador del usuario que guarda el producto',
   `cantidad` int(11) NOT NULL COMMENT 'Representa la cantidad deseada del producto a guardar',
-  `precio_unitario` int(11) NOT NULL COMMENT 'valor monetario del producto guardado',
   PRIMARY KEY (`id_producto`,`id_usuario`),
   KEY `fk_Producto_has_Usuario_Usuario1_idx` (`id_usuario`),
   KEY `fk_Producto_has_Usuario_Producto1_idx` (`id_producto`),
@@ -231,21 +230,6 @@ CREATE TABLE `imagen` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `marca`
---
-
-DROP TABLE IF EXISTS `marca`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `marca` (
-  `id` int(11) NOT NULL COMMENT 'Representa el número único identificador de la marca',
-  `nombre` varchar(25) NOT NULL COMMENT 'nombre de la marca que expide una tarjeta',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `nombre_UNIQUE` (`nombre`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `municipio`
 --
 
@@ -444,4 +428,4 @@ CREATE TABLE `usuario` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-05-12 17:07:02
+-- Dump completed on 2026-05-13 16:30:19

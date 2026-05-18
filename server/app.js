@@ -8,6 +8,7 @@ import productsRoutes from './routes/products.routes.js';
 import usersRoutes from './routes/users.routes.js';
 import departmentsRoutes from './routes/departments.routes.js';
 import companiesRoutes from './routes/companies.routes.js';
+import cartsRoutes from './routes/carts.routes.js';
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use('/api/products', productsRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/departments', departmentsRoutes);
 app.use('/api/companies', companiesRoutes);
+app.use('/api/carts', cartsRoutes);
 
 //archivos subidos
 app.use('/uploads', express.static('uploads'));
