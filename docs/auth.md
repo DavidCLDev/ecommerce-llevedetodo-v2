@@ -7,7 +7,7 @@ usuario.
 
 ### Registrar o crear un usuario
 
-POST `/api/usuario/register`
+POST `/api/auth/register`
 
 Permite crear o registrar un usuario.
 
