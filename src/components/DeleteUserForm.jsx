@@ -38,10 +38,26 @@ export default function DeleteUserForm() {
         <>
             <form className="flex flex-col gap-8" autoComplete="off" onSubmit={ handleSubmit }>
                 <div className="flex flex-col gap-2">
-                    <label htmlFor="confirmPass">Digita tu contraseña para continuar con la eliminación de la cuenta:</label>
-                    <TextInput className="p-2 bg-white" type="password" name="confirmPass" autoComplete="new-password" value={ formData.confirmPass } onChange={ handleChange } />
+                    <label htmlFor="confirmPass">
+                        Digita tu contraseña para continuar con la eliminación
+                        de la cuenta:
+                    </label>
+                    <TextInput
+                    className="p-2 bg-white"
+                    type="password"
+                    name="confirmPass"
+                    autoComplete="new-password"
+                    value={ formData.confirmPass }
+                    onChange={ handleChange }
+                    />
                 </div>
-                <button className="self-end w-40 p-2 bg-red-400 text-white rounded-sm cursor-pointer">Eliminar cuenta</button>
+                <button
+                className="
+                self-end w-40 p-2 bg-red-400 text-white
+                rounded-sm cursor-pointer
+                ">
+                    Eliminar cuenta
+                </button>
             </form>
 
             {isOpen && (

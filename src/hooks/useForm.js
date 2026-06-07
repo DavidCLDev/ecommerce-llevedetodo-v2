@@ -5,12 +5,17 @@ export function useForm(initialState, submit) {
 
     function handleChange(e) {
 
-        const { name, value } = e.target;
+        const { name, value, type } = e.target;
 
         let newValue = value;
 
-        if (name === "phone") {
+        if (name === "phone" || name === "zipCode") {
             newValue = value.replace(/[^0-9]/g, "");
+        }
+
+        if (name === "department" || name === "municipality") {
+            newValue = Number.parseInt(value);
+            
         }
         
         setFormData(prev => ({

@@ -1,9 +1,10 @@
 import pool from '../config/db.js';
 
 export async function fetchMunicipalitiesByDep(id) {
-    const [rows] = await pool.execute(
-        'SELECT id, nombre FROM municipio WHERE id_departamento = ? ORDER BY nombre ASC;',
-        [id]
+    const [rows] = await pool.execute(`
+        SELECT id, nombre as name FROM municipio
+        WHERE id_departamento = ? ORDER BY nombre ASC;
+        `, [id]
     );
 
     return rows;

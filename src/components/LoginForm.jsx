@@ -24,7 +24,7 @@ export default function LoginForm({ onLoginSuccess }) {
 
     async function submitForm(formData) {
         try {
-            const response = await authFetch('login', formData)
+            const response = await authFetch('login', formData);
 
             if (response.status === 200) {
                 const data = await response.json();
@@ -40,7 +40,10 @@ export default function LoginForm({ onLoginSuccess }) {
     }
 
     return (
-        <form className='flex flex-col flex-1 justify-center items-center space-y-6' onSubmit={ handleSubmit }>
+        <form
+        className='flex flex-col flex-1 justify-center items-center space-y-6'
+        method="POST"
+        onSubmit={ handleSubmit }>
             <h2 className="text-2xl font-bold">Iniciar Sesión</h2>
             {
             loginInputs.map((elem, index) => <TextInput { ...elem } className="w-full p-4" key={ index } />)
