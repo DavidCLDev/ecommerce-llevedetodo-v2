@@ -2,7 +2,7 @@ import pool from "../config/db.js";
 
 import { generateToken } from '../utils/jwt.js';
 
-import { insertAddress, existsExactAddress } from "../models/direccion.model.js";
+import { insertAddress, existsAddress } from "../models/direccion.model.js";
 import { addressExists, deleteCompanyByUser, getCompanyById, insertCompany, nameCompanyExists, sellerExists, updateCompany } from "../models/empresa.model.js";
 import { mapCompanyToBD } from "../utils/mapData.js";
 import { isNeighborhoodValid } from "../utils/verifyData.js";
@@ -28,7 +28,7 @@ export async function createCompany(req, res) {
             return res.status(400).json({ message:"Nombre de empresa inválido" });
         }
 
-        const { exactAddressIsDuplicated } = await existsExactAddress(exactAddress);
+        const { exactAddressIsDuplicated } = await existsAddress(exactAddress);
 
         if (exactAddressIsDuplicated) {
             return res.status(409).json({ message: "La dirección ya existe" });

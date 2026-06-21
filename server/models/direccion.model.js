@@ -1,15 +1,16 @@
 import pool from '../config/db.js';
 
 export async function insertAddress(
-    neighborhood, exactAddress, zipCode,
-    isMain=true, municipalityId, userId
+    neighborhood, exactAddress, zipCode, owner, phone, isMain=true,
+    municipalityId, userId
 ) {
     const [result] = await pool.execute(
         `INSERT INTO direccion (barrio, direccion_exacta, codigo_postal,
-        es_principal, id_municipio, id_usuario) values (?, ?, ?, ?, ?, ?);`,
+        representante, telefono, es_principal, id_municipio, id_usuario)
+        values (?, ?, ?, ?, ?, ?, ?, ?);`,
         [
-            neighborhood, exactAddress, zipCode,isMain,
-            municipalityId,userId
+            neighborhood, exactAddress, zipCode, owner, phone, isMain=true,
+            municipalityId, userId
         ]
     );
 
@@ -20,7 +21,10 @@ export async function insertAddress(
 export async function fetchAddresses(id) {
     const [rows] = await pool.execute(
         `
-        SELECT dir.id, dir.direccion_exacta, mun.nombre, dep.nombre
+        SELECT dir.id, dir.direccion_exacta as exactAddress,
+        dir.representante as owner, dir.telefono as phone,
+        dir.es_principal as isMain, mun.nombre as municipality,
+        dep.nombre as department
         FROM direccion dir
         JOIN municipio mun ON dir.id_municipio = mun.id
         JOIN departamento dep ON mun.id_departamento = dep.id
@@ -34,16 +38,18 @@ export async function fetchAddresses(id) {
 export async function fetchAddress(userId, addressId) {
     const [rows] = await pool.execute(
         `
-        SELECT dir.id, dir.direccion_exacta, dir.codigo_postal,
-        dir.es_principal, mun.nombre, dep.nombre
-        FROM direccion dir
-        JOIN municipio mun ON dir.id_municipio = mun.id
+        SELECT dir.id, dir.direccion_exacta as exactAddress,
+        dir.barrio as neighborhood, dir.codigo_postal as zipCode,
+        dir.id_municipio as municipalityId, dep.id as department,
+        dir.representante as owner, dir.telefono as phone
+        FROM direccion dir JOIN municipio mun
+        ON dir.id_municipio = mun.id
         JOIN departamento dep ON mun.id_departamento = dep.id
         WHERE dir.id_usuario = ? AND dir.id = ?;
         `, [userId, addressId]
     );
 
-    return rows;
+    return rows[0];
 }
 
 
@@ -73,12 +79,16 @@ export async function updateAddress(userId, addressId, data) {
     return result.affectedRows;
 }
 
-export async function existsExactAddress(exactAddress) {
+export async function existsAddress(
+    exactAddress, zipCode, neighborhood, municipality
+) {
     const [result] = await pool.execute(
         `
         SELECT EXISTS(SELECT 1 FROM direccion
-        WHERE direccion_exacta = ?) as exactAddressIsDuplicated
-        `, [exactAddress]
+        WHERE direccion_exacta = ? AND codigo_postal = ? AND barrio = ?
+        AND id_municipio = ?
+        ) as exactAddressIsDuplicated
+        `, [exactAddress, zipCode, neighborhood, municipality]
     );
 
     return result[0];

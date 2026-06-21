@@ -2,13 +2,16 @@ import { useState, useEffect } from 'react';
 import { useForm } from '../hooks/useForm';
 import { fetchDepartments, fetchMunicipalities } from '../services/departmentService';
 import TextInput from "../components/TextInput";
-import { addAddress } from '../services/addressService';
-import { useNavigate } from "react-router-dom";
+import { addAddress, editAddress, fetchSpecificAddress } from '../services/addressService';
+import { useNavigate, useParams } from "react-router-dom";
 
-export default function AgregarDireccion() {
+export default function EditarDireccion() {
 
     const navigate = useNavigate();
 
+    const { id } = useParams();
+
+    const [address, setAddress] = useState({});
     const [departamentos, setDepartamentos] = useState([]);
     const [municipios, setMunicipios] = useState([]);
 
@@ -21,6 +24,23 @@ export default function AgregarDireccion() {
         owner: "",
         phone: ""
     }, submitForm);
+
+    useEffect(() => {
+        const cargarDireccion = async () => {
+            const response = await fetchSpecificAddress(id);
+
+            if (response.ok) {
+                const address = await response.json();
+
+                for (let prop of Object.keys(address)) {
+                    formData[prop] = address[prop];
+                }
+    
+            }
+        };
+
+        cargarDireccion();
+    }, []);
 
     useEffect(() => {
          const cargarDepartamentos = async () => {
@@ -54,7 +74,7 @@ export default function AgregarDireccion() {
 
     async function submitForm(formData) {
         try {
-            const response = await addAddress(formData);
+            const response = await editAddress(id, formData);
 
             if (response.ok) {
                 navigate("/cuenta/perfil/direcciones");
@@ -65,10 +85,11 @@ export default function AgregarDireccion() {
     }
 
     return (
-        <div className="flex justify-center py-15 w-full">
-            <div className="w-1/2 p-15 bg-amber-50">
+        <section className="flex justify-center py-15 w-full">
+            <div className="w-1/2 p-13 bg-amber-50 rounded-md">
+                <h1 className='font-bold text-2xl'>Editar Dirección</h1>
                 <form
-                className="grid grid-cols-2 gap-12"
+                className="grid grid-cols-2 gap-12 mt-6"
                 method="POST"
                 onSubmit={ handleSubmit }>
                     <div className="flex flex-col gap-1 col-span-full">
@@ -164,12 +185,12 @@ export default function AgregarDireccion() {
                         required />
                     </div>
                     <button
-                    className="bg-green-400 text-white p-3 col-span-full
+                    className="bg-amber-400 text-white p-3 col-span-full
                     cursor-pointer rounded-sm">
-                        Agregar
+                        Guardar Cambios
                     </button>
                 </form>
             </div>
-        </div>
+        </section>
     );
 }

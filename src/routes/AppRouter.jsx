@@ -27,6 +27,7 @@ import Ajustes from '../pages/Ajustes';
 import PublicRoute from '../routes/PublicRoute';
 import PrivateRoute from '../routes/PrivateRoute';
 import AccountLayout from '../layouts/AccountLayout';
+import EditarDireccion from '../pages/EditarDireccion';
 
 
 export default function AppRouter() {
@@ -58,7 +59,8 @@ export default function AppRouter() {
                     <Route path="perfil/informacion" element={ <DatosUsuario />}></Route>
                     <Route path="perfil/informacion/:tipo" element={ <ModificarDato />}></Route>
 
-                    <Route path="perfil/direcciones" element={ <Direcciones /> }></Route>
+                    <Route path="perfil/direcciones" element={ <Direcciones /> } />
+                    <Route path="/cuenta/perfil/direcciones/:id" element={ <EditarDireccion />} />
                     <Route path="perfil/direcciones/agregar" element={ <AgregarDireccion /> }></Route>
 
                     <Route path="facturas" element={ <Facturacion /> }></Route>

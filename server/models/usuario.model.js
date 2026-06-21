@@ -12,8 +12,9 @@ export async function insertUser(name, lastname, email, phone, username, passwor
 
 export async function findUserByEmail(email) {
     const [rows] = await pool.execute(`
-        SELECT u.id, u.nombre as name, u.nombre_de_usuario as username,
-        u.correo as email, u.contrasena, e.id as companyId
+        SELECT u.id, u.nombre as name, u.apellido as lastname,
+        u.nombre_de_usuario as username, u.correo as email, u.celular as phone,
+        u.contrasena, e.id as companyId
         FROM usuario u LEFT JOIN empresa e on u.id = e.id_vendedor
         WHERE u.correo = ?;
         `, [email]
@@ -24,8 +25,9 @@ export async function findUserByEmail(email) {
 
 export async function findUserById(id) {
     const[rows] = await pool.execute(`
-        SELECT u.id, u.nombre as name, u.nombre_de_usuario as username,
-        u.correo as email, e.id as companyId
+        SELECT u.id, u.nombre as name, u.apellido as lastname,
+        u.nombre_de_usuario as username, u.correo as email, u.celular as phone,
+        e.id as companyId
         FROM usuario u LEFT JOIN empresa e
         ON u.id = e.id_vendedor
         WHERE u.id = ?

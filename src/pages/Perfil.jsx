@@ -11,7 +11,7 @@ export default function Perfil() {
     // Aquí se ponen las opciones a las que tiene acceso el usuario en su panel de perfil
     const userCards = [
         {header: "Datos de tu cuenta", description: "Información que representa a tu cuenta de llevedetodo", icon: faAddressCard, ruta: "informacion"},
-        {header: "Dirección", description: "Direcciones asignadas a tu cuenta", icon: faLocationDot, ruta: "direcciones"},
+        {header: "Direcciones", description: "Direcciones asignadas a tu cuenta", icon: faLocationDot, ruta: "direcciones"},
         {header: "Tarjetas", description: "Tarjetas guardadas en tu cuenta", icon: faCreditCard, ruta: "tarjetas"}
     ];
 

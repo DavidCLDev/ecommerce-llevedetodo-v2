@@ -1,24 +1,36 @@
-import { insertAddress, fetchAddresses, fetchAddress, updateAddress, deleteUserAddressById, existsExactAddress } from "../models/direccion.model.js";
+import {
+    insertAddress, fetchAddresses, fetchAddress, updateAddress,
+    deleteUserAddressById, existsAddress
+} from "../models/direccion.model.js";
+import { isPhoneValid } from '../utils/verifyData.js';
 import { mapAddressToBD } from "../utils/mapData.js";
 
 export async function createAddress(req, res) {
     try {
 
         const {
-            neighborhood, exactAddress, zipCode,
-            isMain, municipalityId
+            neighborhood, exactAddress, zipCode, owner, phone, isMain,
+            municipalityId, userId
         } = req.body.address;
 
 
-        const { exactAddressIsDuplicated } = await existsExactAddress(exactAddress)
+        const { exactAddressIsDuplicated } = await existsAddress(
+            exactAddress, zipCode, neighborhood, municipalityId
+        );
 
         if (exactAddressIsDuplicated) {
             return res.status(409).json({ message: "La dirección ya existe" });
         }
 
+        if (!isPhoneValid(phone)) {
+            return res.status(400).json({
+                message: 'El formato del número no concuerda con un número del país'
+            });
+        }
+
         await insertAddress(
-            neighborhood, exactAddress, zipCode,
-            isMain, municipalityId, req.user.id
+            neighborhood, exactAddress, zipCode, owner, phone, isMain,
+            municipalityId, req.user.id
         );
 
         return res.status(204).send();
